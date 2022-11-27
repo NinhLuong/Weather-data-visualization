@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="img">
+    <file>Logo_khoa_dien.png</file>
+    <file>mc.png</file>
+    <file>mic.png</file>
+    <file>02n.png</file>
+    <file>agenda.png</file>
+    <file>cloud.png</file>
+    <file>night.png</file>
+    <file>rain.png</file>
+    <file>sum.png</file>
+    <file>main_logo.png</file>
+  </qresource>
+</RCC>
