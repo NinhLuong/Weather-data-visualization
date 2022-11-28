@@ -10,27 +10,11 @@
     <height>1074</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <property name="iconSize">
-   <size>
-    <width>50</width>
-    <height>50</height>
-   </size>
-  </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="styleSheet">
-    <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(42, 44, 111, 255), stop:0.521368 rgba(28, 29, 73, 255));
-background-color: rgb(27, 26, 70);</string>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="2,0,10,0">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="2,4,10,0">
     <item>
      <widget class="QFrame" name="frame">
       <property name="styleSheet">
@@ -47,8 +31,7 @@ border-radius:20px;</string>
        <item>
         <widget class="QLabel" name="label">
          <property name="styleSheet">
-          <string notr="true">image: url(:/img/main_logo.png);
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(42, 44, 111, 255), stop:0.521368 rgba(28, 29, 73, 255));</string>
+          <string notr="true">image: url(:/img/main_logo.png);</string>
          </property>
          <property name="text">
           <string/>
@@ -65,7 +48,7 @@ font: 15 italic 19pt &quot;League Spartan&quot;;
 background-color: none;</string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:normal;&quot;&gt;Weather Data Visualization&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>Weather Data Visualization</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -80,7 +63,7 @@ font: 15 italic 19pt &quot;League Spartan&quot;;
 background-color: none;</string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Lượng Vũ Hải Ninh - 20139083&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>Lượng Vũ Hải Ninh</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -92,15 +75,10 @@ background-color: none;</string>
        <item>
         <widget class="QLabel" name="label_5">
          <property name="styleSheet">
-          <string notr="true">image: url(:/img/iconkhoa.png);
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(42, 44, 111, 255), stop:0.521368 rgba(28, 29, 73, 255));
-</string>
+          <string notr="true">image: url(:/img/Logo_khoa_dien.png);</string>
          </property>
          <property name="text">
           <string/>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
@@ -136,25 +114,15 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb
         <number>11</number>
        </property>
        <item>
-        <widget class="QFrame" name="KK_Temp">
+        <widget class="QFrame" name="frame_9">
          <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>212</width>
-           <height>212</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16777215</height>
-          </size>
+          <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:270.7, stop:0.189055 rgba(85, 0, 127, 255), stop:0.343284 rgba(0, 0, 255, 255), stop:0.502488 rgba(0, 170, 0, 255), stop:0.661692 rgba(255, 255, 0, 255), stop:0.80597 rgba(255, 0, 0, 255));
-border-radius: 106px;</string>
+          <string notr="true">/*background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:0.25 rgba(245, 245, 245, 255), stop:0.251351 rgba(0, 0, 0, 0));
+*/
+border-radius: 100px;
+background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:0.99005 rgba(245, 245, 245, 255), stop:1 rgba(0, 0, 0, 0));</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -162,28 +130,24 @@ border-radius: 106px;</string>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_83">
-          <property name="spacing">
-           <number>0</number>
-          </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_22">
           <property name="leftMargin">
-           <number>0</number>
+           <number>14</number>
           </property>
           <property name="topMargin">
-           <number>0</number>
+           <number>14</number>
           </property>
           <property name="rightMargin">
-           <number>0</number>
+           <number>14</number>
           </property>
           <property name="bottomMargin">
-           <number>0</number>
+           <number>14</number>
           </property>
           <item>
-           <widget class="QFrame" name="frame_32">
+           <widget class="QFrame" name="frame_nhietdo">
             <property name="styleSheet">
-             <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:0.25 rgba(245, 245, 245, 255), stop:0.251351 rgba(0, 0, 0, 0));
-border-radius: 106px;
-background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:0.99005 rgba(245, 245, 245, 255), stop:1 rgba(0, 0, 0, 0));</string>
+             <string notr="true">background-color: rgb(245, 245, 245);
+border-radius: 92px;</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -191,72 +155,44 @@ background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245,
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_17">
-             <property name="leftMargin">
-              <number>14</number>
-             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_19">
              <property name="topMargin">
-              <number>14</number>
-             </property>
-             <property name="rightMargin">
-              <number>14</number>
-             </property>
-             <property name="bottomMargin">
-              <number>14</number>
+              <number>30</number>
              </property>
              <item>
-              <widget class="QFrame" name="frame_33">
+              <widget class="QPushButton" name="pushButton_33">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>15</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(245, 245, 245);
-border-radius: 92px;</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_84">
-                <property name="topMargin">
-                 <number>30</number>
-                </property>
-                <item>
-                 <widget class="QPushButton" name="pushButton_19">
-                  <property name="font">
-                   <font>
-                    <family>Segoe UI</family>
-                    <pointsize>15</pointsize>
-                    <weight>50</weight>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 201, 0, 255), stop:1 rgba(25, 81, 36, 255));
+                <string notr="true">color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 201, 0, 255), stop:1 rgba(25, 81, 36, 255));
 background-color: rgba(0, 0, 0, 0);</string>
-                  </property>
-                  <property name="text">
-                   <string>Nhiệt độ</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="pushButton_20">
-                  <property name="font">
-                   <font>
-                    <family>Segoe UI</family>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 201, 0, 255), stop:1 rgba(25, 81, 36, 255));
+               </property>
+               <property name="text">
+                <string>Nhiệt độ</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_34">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 201, 0, 255), stop:1 rgba(25, 81, 36, 255));
 background-color: rgba(0, 0, 0, 0);</string>
-                  </property>
-                  <property name="text">
-                   <string>0°C</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+               </property>
+               <property name="text">
+                <string>0°C</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -293,7 +229,7 @@ background-color: rgb(255, 255, 255);</string>
          <property name="lineWidth">
           <number>1</number>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="3,2">
+         <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="2,1">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
@@ -316,28 +252,15 @@ font: 50pt &quot;Stencil&quot;rgb(0, 0, 0);
 </string>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;7:10&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;7:10&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="2,2,5">
-                <item>
-                 <spacer name="horizontalSpacer_3">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>60</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
+               <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="1,4">
                 <item>
                  <widget class="QFrame" name="frame_10">
                   <property name="styleSheet">
@@ -355,7 +278,7 @@ image: url(:/img/agenda.png);
                  </widget>
                 </item>
                 <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0">
+                 <layout class="QVBoxLayout" name="verticalLayout_6">
                   <item>
                    <widget class="QLabel" name="day">
                     <property name="styleSheet">
@@ -389,7 +312,21 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_5" stretch="3">
+           <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,3">
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="styleSheet">
+               <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;
+</string>
+              </property>
+              <property name="text">
+               <string>  Thời tiết</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QPushButton" name="picture">
               <property name="enabled">
@@ -428,25 +365,14 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;
         </spacer>
        </item>
        <item>
-        <widget class="QFrame" name="KK_Humi">
+        <widget class="QFrame" name="frame_do_am">
          <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="minimumSize">
-          <size>
-           <width>212</width>
-           <height>212</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16777215</height>
-          </size>
-         </property>
          <property name="styleSheet">
-          <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:270.7, stop:0.189055 rgba(85, 0, 127, 255), stop:0.343284 rgba(0, 0, 255, 255), stop:0.502488 rgba(0, 170, 0, 255), stop:0.661692 rgba(255, 255, 0, 255), stop:0.80597 rgba(255, 0, 0, 255));
-border-radius: 106px;</string>
+          <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:0.25 rgba(245, 245, 245, 255), stop:0.251351 rgba(0, 0, 0, 0));
+border-radius: 100px;
+background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:0.99005 rgba(245, 245, 245, 255), stop:1 rgba(0, 0, 0, 0));</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -454,31 +380,24 @@ border-radius: 106px;</string>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_85">
-          <property name="spacing">
-           <number>0</number>
-          </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_23">
           <property name="leftMargin">
-           <number>0</number>
+           <number>14</number>
           </property>
           <property name="topMargin">
-           <number>0</number>
+           <number>14</number>
           </property>
           <property name="rightMargin">
-           <number>0</number>
+           <number>14</number>
           </property>
           <property name="bottomMargin">
-           <number>0</number>
+           <number>14</number>
           </property>
           <item>
-           <widget class="QFrame" name="frame_34">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
+           <widget class="QFrame" name="frame_40">
             <property name="styleSheet">
-             <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:0.25 rgba(245, 245, 245, 255), stop:0.251351 rgba(0, 0, 0, 0));
-border-radius: 106px;
-background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:0.99005 rgba(245, 245, 245, 255), stop:1 rgba(0, 0, 0, 0));</string>
+             <string notr="true">background-color: rgb(245, 245, 245);
+border-radius: 92px;</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -486,72 +405,44 @@ background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245,
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_18">
-             <property name="leftMargin">
-              <number>14</number>
-             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_81">
              <property name="topMargin">
-              <number>14</number>
-             </property>
-             <property name="rightMargin">
-              <number>14</number>
-             </property>
-             <property name="bottomMargin">
-              <number>14</number>
+              <number>30</number>
              </property>
              <item>
-              <widget class="QFrame" name="frame_35">
+              <widget class="QPushButton" name="pushButton_35">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>15</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(245, 245, 245);
-border-radius: 92px;</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_86">
-                <property name="topMargin">
-                 <number>30</number>
-                </property>
-                <item>
-                 <widget class="QPushButton" name="pushButton_21">
-                  <property name="font">
-                   <font>
-                    <family>Segoe UI</family>
-                    <pointsize>15</pointsize>
-                    <weight>50</weight>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 201, 0, 255), stop:1 rgba(25, 81, 36, 255));
+                <string notr="true">color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 201, 0, 255), stop:1 rgba(25, 81, 36, 255));
 background-color: rgba(0, 0, 0, 0);</string>
-                  </property>
-                  <property name="text">
-                   <string>Độ ẩm</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="pushButton_22">
-                  <property name="font">
-                   <font>
-                    <family>Segoe UI</family>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 201, 0, 255), stop:1 rgba(25, 81, 36, 255));
+               </property>
+               <property name="text">
+                <string>Độ ẩm</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_36">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 201, 0, 255), stop:1 rgba(25, 81, 36, 255));
 background-color: rgba(0, 0, 0, 0);</string>
-                  </property>
-                  <property name="text">
-                   <string>0%</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+               </property>
+               <property name="text">
+                <string>0%</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -659,9 +550,8 @@ background-color: rgb(255, 255, 255);</string>
     <item>
      <widget class="QFrame" name="frame_4">
       <property name="styleSheet">
-       <string notr="true">border-bottom-right-radius: 0px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(42, 44, 111, 255), stop:0.521368 rgba(28, 29, 73, 255));
-border-radius:20px;</string>
+       <string notr="true">border-radius:170px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(42, 44, 111, 255), stop:0.521368 rgba(28, 29, 73, 255));</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -669,7 +559,7 @@ border-radius:20px;</string>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,2,0,0,0,1,0,0">
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,2,0,0,1,0,0">
        <item>
         <widget class="QPushButton" name="load_button">
          <property name="font">
@@ -745,28 +635,12 @@ QPushButton:pressed{
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QPushButton" name="voice">
          <property name="cursor">
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton{	
-	image: url(:/img/voice_icon.png);
-	border-radius: 15px;
-}</string>
+          <string notr="true">image: url(:/img/mc.png);</string>
          </property>
          <property name="text">
           <string/>
@@ -861,8 +735,6 @@ QPushButton:pressed{
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

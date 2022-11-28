@@ -8,8 +8,14 @@ import matplotlib.pyplot as plt
 from PySide2 import QtGui
 from PySide2.QtGui import QIcon
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from PyQt5 import QtCore
+from PySide2 import QtCore, QtGui, QtWidgets
+from PySide2.QtWidgets import *
+from PySide2.QtGui import ( QColor, QIcon)
+from PySide2.QtCore import (QCoreApplication, QSize)
+from splash_screen import *
 
+counter = 0
+jumper =0
 datetime = []
 temp = []
 humidity = []
@@ -20,6 +26,7 @@ mode = 0
 rtm0 = 29   #Góc quay trục x của mode chọn file
 rtm1 = 15   #Góc quay trục x mode input name city
 time_to_get = 14    #Sô kết quả lấy dữ liệu api (3 tiếng cho 1 kết quả)
+_translate = QtCore.QCoreApplication.translate
 
 class AnotherWindow(QWidget):
     def __init__(self):
@@ -40,12 +47,12 @@ class AnotherWindow(QWidget):
 class MiApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setFixedSize(1133, 1074)
+        # self.setFixedSize(1133, 1074)
         self.ui = Ui_MainWindow() 
         self.ui.setupUi(self)
         self.w = None
         self.setWindowTitle("Weather Data Visualization")
-        self.setWindowIcon(QtGui.QIcon(":/images/imges/main_logo.png"))
+        self.setWindowIcon(QtGui.QIcon(":/images/main_icon.png"))
         self.ui.notice_label.setStyleSheet(u"background-color: none;\n""color : red")
         self.ui.notice_label.setText("")
         #Kích thước nút mặc định
@@ -58,19 +65,35 @@ class MiApp(QMainWindow):
         self.ui.help_button.setFixedHeight(31)
         self.ui.exit_button.setFixedWidth(81)
         self.ui.exit_button.setFixedHeight(31)  
-        self.ui.lineEdit.setFixedHeight(31)       
+        self.ui.voice.setFixedWidth(30)
+        self.ui.voice.setFixedHeight(30)
+        self.ui.lineEdit.setFixedHeight(31) 
+        self.ui.KK_Humi.setFixedWidth(212)      
+        self.ui.KK_Humi.setFixedHeight(212)
+        self.ui.frame_34.setFixedWidth(212)      
+        self.ui.frame_34.setFixedHeight(212)
+        self.ui.frame_35.setFixedHeight(184)
+        self.ui.frame_35.setFixedWidth(184)
+        self.ui.KK_Temp.setFixedWidth(212)      
+        self.ui.KK_Temp.setFixedHeight(212)
+        self.ui.frame_32.setFixedWidth(212)      
+        self.ui.frame_32.setFixedHeight(212)
+        self.ui.frame_33.setFixedHeight(184)
+        self.ui.frame_33.setFixedWidth(184)
+        self.ui.frame_view.setFixedHeight(212)
+        self.ui.frame_view.setFixedWidth(637)
+        self.ui.label.setFixedHeight(95)
+        self.ui.label.setFixedWidth(179)
+        self.ui.label_5.setFixedHeight(95)
+        self.ui.label_5.setFixedWidth(179)
+        
         #Nhận biết kích hoạt button
         self.ui.help_button.clicked.connect(self.show_new_window)
         self.ui.load_button.clicked.connect(self.bt_load)
         self.ui.start_button.clicked.connect(self.bt_start)
         self.ui.exit_button.clicked.connect(QApplication.instance().quit)
-        self.show()     
-        # câp nhật thời gian
-        _translate = QtCore.QCoreApplication.translate
-        self.ui.Time.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" color:#000000;\">7:10</span></p></body></html>"))
-        timer= QtCore.QTime.currentTime()
-        text= timer.toString("HH:mm")
-        self.ui.Time.setText(text)
+        self.show() 
+        self.Timer_Start()
 
         # cập nhật ngày tháng năm
         self.ui.day.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:11pt; font-weight:600; color:#000000;\">21/08/2002</span></p></body></html>"))
@@ -110,7 +133,55 @@ class MiApp(QMainWindow):
         elif data['weather'][0]['main'] =='Clouds':
                 self.ui.picture.setStyleSheet("border: none;\n"
                 "background: none;\n"
-                "image: url(images/cloud.png);")
+                "image: url(images/cloud.png);")    
+
+    def Timer_Start(self):
+        self.timer_date = QtCore.QTimer()
+        self.timer_date.start(1000)
+        self.timer_date.timeout.connect(self.update_date)
+
+        self.timer_tem = QtCore.QTimer()
+        self.timer_tem.start(1000)
+        self.timer_tem.timeout.connect(self.KK_Gauge_Temp_CallBack(29))
+
+        self.timer_humi = QtCore.QTimer()
+        self.timer_humi.start(1000)
+        self.timer_humi.timeout.connect(self.KK_Gauge_Humi_CallBack(50))
+
+    def update_date(self):
+        # câp nhật thời gian
+        self.ui.Time.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" color:#000000;\">7:10</span></p></body></html>"))
+        timer= QtCore.QTime.currentTime()
+        text= timer.toString("HH:mm")
+        self.ui.Time.setText(text)
+     
+    def KK_Gauge_Temp(self, value):
+        styleSheet = """border-radius: 106px;
+		background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:{stop_val1} rgba(245, 245, 245, 255), stop:{stop_val2} rgba(0, 0, 0, 0));"""
+        stop2 = str(value * -0.00749 + 1)
+        stop1 = str(value * -0.00749 + 1 - 0.01)
+
+        styleSheet = styleSheet.replace("{stop_val1}", stop1).replace("{stop_val2}", stop2)
+        self.ui.frame_32.setStyleSheet(styleSheet)
+
+    def KK_Gauge_Temp_CallBack(self, value):
+        self.KK_Gauge_Temp(int(value))
+        _translate = QtCore.QCoreApplication.translate
+        self.ui.pushButton_20.setText(_translate("MainWindow", str(value) + "°C"))
+    
+    def KK_Gauge_Humi(self, value):
+        styleSheet = """border-radius: 106px;
+		background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:{stop_val1} rgba(245, 245, 245, 255), stop:{stop_val2} rgba(0, 0, 0, 0));"""
+        stop2 = str(value * -0.00749 + 1)
+        stop1 = str(value * -0.00749 + 1 - 0.01)
+
+        styleSheet = styleSheet.replace("{stop_val1}", stop1).replace("{stop_val2}", stop2)
+        self.ui.frame_34.setStyleSheet(styleSheet)
+
+    def KK_Gauge_Humi_CallBack(self, value):
+        self.KK_Gauge_Humi(int(value))
+        _translate = QtCore.QCoreApplication.translate
+        self.ui.pushButton_22.setText(_translate("MainWindow", str(value) + "%"))
 
     def show_new_window(self, checked):
         if self.w is None:
@@ -141,7 +212,6 @@ class MiApp(QMainWindow):
         chuanhoa = str(diachi)[:-20]
         chuanhoa = chuanhoa[3:] 
         link = chuanhoa
-        print(link)
         self.ui.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow",link, None))
 
     #Thiết lập hoạt động cho start_button
@@ -165,7 +235,6 @@ class MiApp(QMainWindow):
             #Đặt trong try để trừ trường hợp bị lỗi phần mềm do data không đúng khi load dữ liệu vẽ
             try:
                 pd.read_csv(link)
-                print("đã đọc file")
                 self.ui.notice_label.setText("")
                 try:
                     self.draw()
@@ -255,7 +324,7 @@ class Canvas_grafica(FigureCanvas):
                 plt.xticks(fontsize = 6, rotation = rtm0)
                 plt.legend(loc='best')
                 plt.xlabel("Time")
-                plt.ylabel("Index") 
+                plt.ylabel("Index")
             except:
                 pass
 
@@ -372,10 +441,105 @@ class Canvas_grafica4(FigureCanvas):
             self.fig.suptitle("Histogram: Temperature for 14 days",size=9)
             plt.legend(loc='best')
 
+class SplashScreen(QMainWindow):
+    def __init__(self):
+        counter = 0
+        QMainWindow.__init__(self)
+        self.ui = Ui_SplashScreen()
+        self.ui.setupUi(self)
+
+        ## ==> SET INITIAL PROGRESS BAR TO (0) ZERO
+        self.progressBarValue(0)
+
+        ## ==> REMOVE STANDARD TITLE BAR
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint) # Remove title bar
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground) # Set background to transparent
+
+        ## ==> APPLY DROP SHADOW EFFECT
+        self.shadow = QGraphicsDropShadowEffect(self)
+        self.shadow.setBlurRadius(20)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setColor(QColor(0, 0, 0, 120))
+        self.ui.circularBg.setGraphicsEffect(self.shadow)
+
+        ## QTIMER ==> START
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.progress)
+        # TIMER IN MILLISECONDS
+        self.timer.start(10)
+
+        ## SHOW ==> MAIN WINDOW
+        ########################################################################
+        self.show()
+        ## ==> END ##
+
+    ## DEF TO LOANDING
+    ########################################################################
+    def progress (self):
+        global counter
+        global jumper
+        value = counter
+
+        # HTML TEXT PERCENTAGE
+        htmlText = """<p><span style=" font-size:68pt;">{VALUE}</span><span style=" font-size:58pt; vertical-align:super;">%</span></p>"""
+
+        # REPLACE VALUE
+        newHtml = htmlText.replace("{VALUE}", str(jumper))
+
+        if(value > jumper):
+            # APPLY NEW PERCENTAGE TEXT
+            self.ui.labelPercentage.setText(newHtml)
+            jumper += 10
+
+        # SET VALUE TO PROGRESS BAR
+        # fix max value error if > than 100
+        if value >= 100: value = 1.000
+        self.progressBarValue(value)
+
+        # CLOSE SPLASH SCREE AND OPEN APP
+        if counter > 95:
+            # STOP TIMER
+            self.timer.stop()
+
+            # SHOW MAIN WINDOW
+            self.main = MiApp()
+            self.main.show()
+
+            # CLOSE SPLASH SCREEN
+            self.close()
+
+        # INCREASE COUNTER
+        counter += 0.5
+
+    ## DEF PROGRESS BAR VALUE
+    ########################################################################
+    def progressBarValue(self, value):
+
+        # PROGRESSBAR STYLESHEET BASE
+        styleSheet = """
+        QFrame{
+        	border-radius: 150px;
+        	background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:{STOP_1} rgba(255, 0, 127, 0), stop:{STOP_2} rgba(85, 170, 255, 255));
+        }
+        """
+
+        # GET PROGRESS BAR VALUE, CONVERT TO FLOAT AND INVERT VALUES
+        # stop works of 1.000 to 0.000
+        progress = (100 - value) / 100.0
+
+        # GET NEW VALUES
+        stop_1 = str(progress - 0.001)
+        stop_2 = str(progress)
+
+        # SET VALUES TO NEW STYLESHEET
+        newStylesheet = styleSheet.replace("{STOP_1}", stop_1).replace("{STOP_2}", stop_2)
+
+        # APPLY STYLESHEET WITH NEW VALUES
+        self.ui.circularProgress.setStyleSheet(newStylesheet)
 
 #Bắt đấu chương trình chính
 if __name__ == "__main__":
      app = QApplication(sys.argv)
-     mi_app = MiApp()
-     mi_app.show()
+     window = SplashScreen()
      sys.exit(app.exec_())  

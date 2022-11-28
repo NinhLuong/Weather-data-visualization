@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="img">
-    <file>Logo_khoa_dien.png</file>
+    <file>voice_icon.png</file>
+    <file>iconkhoa.png</file>
     <file>mc.png</file>
     <file>mic.png</file>
     <file>02n.png</file>
