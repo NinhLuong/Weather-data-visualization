@@ -1,3 +1,122 @@
+import codecs
+import requests
+import urllib.error
+import sys
+import os
+import json
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+
+api_key = 'TQ39TAZE5EZHHYRGNANAQ5JJB'
+city = 'phan thiet'
+url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' + city + '?key=' + api_key
+response = requests.get(url).json()
+
+datetime = []
+temp = []
+humidity = []
+windspeed = []
+uvindex = []
+num_hour_line =2
+num_day_line = 0
+
+fig ,ax = plt.subplots(1, dpi=100, figsize=(6, 6), 
+            sharey=True, facecolor='white') 
+# i=1
+# j=0
+
+# def animate(h):
+#     global i,j,datetime,temp,humidity,windspeed,uvindex
+#     i+=1
+#     datetime.append(str(response["days"][j]["hours"][i]["datetime"]))
+#     temp.append(round(float((response["days"][j]["hours"][i]["temp"]-32)/1.8)))
+#     humidity.append(float(response["days"][j]["hours"][i]['humidity']))
+#     windspeed.append(float(response["days"][j]["hours"][i]['windspeed']))
+#     uvindex.append(float(response["days"][j]["hours"][i]['uvindex']))
+
+#     if (i>22):
+#         j+=1
+#         i=1
+#         datetime = []
+#         temp = []
+#         humidity = []
+#         windspeed = []
+#         uvindex = []
+
+#     print(datetime)
+#     print('========================================')
+#     print(temp)
+#     print('========================================')
+#     print(humidity)
+#     print('========================================')
+#     print(windspeed)
+#     print('========================================')
+#     print(uvindex)
+#     print('========================================')
+#     print(i)
+#     print(j)
+#     plt.cla()
+#     fig.suptitle('Line Graph: Weather forecast for the next few hours of date {}',size=9)
+#     plt.plot(datetime, humidity, 'b', label='Humidity (%)')
+#     plt.plot(datetime, temp, 'r', label='Temp (℃)')
+#     plt.plot(datetime, windspeed, 'g', label='Wind speed (m/s)')
+#     plt.plot(datetime,uvindex,'y', label="UV index")
+#     plt.xticks(fontsize = 5, rotation = 20)
+#     plt.legend(loc='best')
+#     plt.xlabel("Time")
+#     plt.ylabel("Index")  
+    
+# ani = FuncAnimation(fig=fig, func=animate, interval=1000)
+# plt.show()
+
+def animate(h):
+    global num_day_line,num_hour_line,datetime,temp,humidity,windspeed,uvindex
+    num_hour_line+=1
+    datetime.append(str(response["days"][num_day_line]["hours"][num_hour_line]["datetime"]))
+    temp.append(round(float((response["days"][num_day_line]["hours"][num_hour_line]["temp"]-32)/1.8)))
+    humidity.append(float(response["days"][num_day_line]["hours"][num_hour_line]['humidity']))
+    windspeed.append(float(response["days"][num_day_line]["hours"][num_hour_line]['windspeed']))
+    uvindex.append(float(response["days"][num_day_line]["hours"][num_hour_line]['uvindex']))
+    day = str(response["days"][num_day_line]["datetime"])
+    
+    if (num_hour_line>22):
+        num_day_line+=1
+        num_hour_line=2
+        datetime = []
+        temp = []
+        humidity = []
+        windspeed = []
+        uvindex = []
+
+    print(datetime)
+    print('========================================')
+    print(temp)
+    print('========================================')
+    print(humidity)
+    print('========================================')
+    print(windspeed)
+    print('========================================')
+    print(uvindex)
+    print('========================================')
+    print(num_day_line)
+    print(num_hour_line)
+    plt.cla()
+    fig.suptitle('Line Graph: Weather forecast for the next few hours of date {}'.format(day),size=9)
+    plt.plot(datetime, humidity, 'b', label='Humidity (%)')
+    plt.plot(datetime, temp, 'r', label='Temp (℃)')
+    plt.plot(datetime, windspeed, 'g', label='Wind speed (m/s)')
+    plt.plot(datetime, uvindex,'y', label="UV index")
+    plt.xticks(fontsize = 5, rotation = 20)
+    plt.legend(loc='best')
+    plt.xlabel("Time")
+    plt.ylabel("Index")  
+
+anim = FuncAnimation(fig=fig, func=animate, interval = 1000)
+plt.show()  
+# ============================================================
 import sys
 import requests
 import os
@@ -17,12 +136,15 @@ import matplotlib.pyplot as plt
 from PySide2 import QtGui
 from PySide2.QtGui import QIcon
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import  NavigationToolbar2QT as NavigationToolbar
 from PySide2 import QtCore, QtGui, QtWidgets
 from PySide2.QtWidgets import *
 from PySide2.QtGui import ( QColor, QIcon)
 from PySide2.QtCore import (QCoreApplication, QSize)
 from splash_screen import *
 from threading import *
+from matplotlib.animation import FuncAnimation, PillowWriter
+from matplotlib.figure import Figure
 
 language = 'vi'
 counter = 0
@@ -41,6 +163,8 @@ _translate = QtCore.QCoreApplication.translate
 call_url = 'https://api.openweathermap.org/data/2.5/weather?lat=10.850145464871641&lon=106.7716601973813&appid=d80948795e2ec6257f1f62303cf81808&lang=vi'
 response = requests.get(call_url)
 data = response.json()
+num_hour_line =2
+num_day_line = 0
 
 class AnotherWindow(QWidget):
     def __init__(self):
@@ -196,20 +320,67 @@ class MiApp(QMainWindow):
 
     #Hàm vẽ biểu đồ lên màn hình   
     def draw(self):
-        self.grafica = Canvas_grafica()
-        self.grafica1 = Canvas_grafica2()
-        self.grafica2 = Canvas_grafica3()
-        self.grafica3 = Canvas_grafica4()
-        self.ui.line_chart.addWidget(self.grafica)
-        self.ui.scatter_chart.addWidget(self.grafica1)
-        self.ui.bar_chart.addWidget(self.grafica2)
-        self.ui.histogram_chart.addWidget(self.grafica3)
+        # self.figline = Figure(figsize=(6, 6))
+        # self.update()
+        # self.canvas1 = FigureCanvas(self.figline)
+        self.ui.line_chart.addWidget(Canvas_grafica())
+        self.ui.scatter_chart.addWidget(Canvas_grafica2())
+        self.ui.bar_chart.addWidget(Canvas_grafica3())
+        self.ui.histogram_chart.addWidget(Canvas_grafica4())
+    
+    def animate(self,h):
+        global num_day_line,num_hour_line,datetime,temp,humidity,windspeed,uvindex
+        num_hour_line+=1
+        self.figline , self.ax = plt.subplots(1,dpi=100, figsize=(6, 6), 
+    sharey=True, facecolor='white')
+        datetime.append(str(response["days"][num_day_line]["hours"][num_hour_line]["datetime"]))
+        temp.append(round(float((response["days"][num_day_line]["hours"][num_hour_line]["temp"]-32)/1.8)))
+        humidity.append(float(response["days"][num_day_line]["hours"][num_hour_line]['humidity']))
+        windspeed.append(float(response["days"][num_day_line]["hours"][num_hour_line]['windspeed']))
+        uvindex.append(float(response["days"][num_day_line]["hours"][num_hour_line]['uvindex']))
+        day = str(response["days"][num_day_line]["datetime"])
+
+        if (num_hour_line>22):
+            num_day_line+=1
+            num_hour_line=2
+            datetime = []
+            temp = []
+            humidity = []
+            windspeed = []
+            uvindex = []
+
+        print(datetime)
+        print('========================================')
+        print(temp)
+        print('========================================')
+        print(humidity)
+        print('========================================')
+        print(windspeed)
+        print('========================================')
+        print(uvindex)
+        print('========================================')
+        print(num_day_line)
+        print(num_hour_line)
+        plt.cla()
+        self.figline.suptitle('Line Graph: Weather forecast for the next few hours of date {}'.format(day),size=9)
+        plt.plot(datetime, humidity, 'b', label='Humidity (%)')
+        plt.plot(datetime, temp, 'r', label='Temp (℃)')
+        plt.plot(datetime, windspeed, 'g', label='Wind speed (m/s)')
+        # plt.plot(datetime, uvindex,'y', label="UV index")
+        plt.xticks(fontsize = 5, rotation = 20)
+        plt.legend(loc='best')
+        plt.xlabel("Time")
+        plt.ylabel("Index")  
+        plt.tight_layout()
+    
+    def update(self):
+        self.anim = FuncAnimation(self.figline, self.animate, interval = 10000)
     
     def remove(self):
-        self.ui.line_chart.removeWidget(self.grafica)
-        self.ui.scatter_chart.removeWidget(self.grafica1)
-        self.ui.bar_chart.removeWidget(self.grafica2)
-        self.ui.histogram_chart.removeWidget(self.grafica3)          
+        self.ui.line_chart.removeWidget(Canvas_grafica())
+        self.ui.scatter_chart.removeWidget(Canvas_grafica2())
+        self.ui.bar_chart.removeWidget(Canvas_grafica3())
+        self.ui.histogram_chart.removeWidget(Canvas_grafica4())          
 
     #Thiết lập hoạt động cho load_button
     def bt_load(self):
@@ -395,14 +566,61 @@ class Canvas_grafica(FigureCanvas):
 
 
         if mode == 1:
-            for i in range(5,18):
+            # def animate(self,h):
+            #     global num_day_line,num_hour_line,datetime,temp,humidity,windspeed,uvindex
+            #     num_hour_line+=1
+            #     datetime.append(str(response["days"][num_day_line]["hours"][num_hour_line]["datetime"]))
+            #     temp.append(round(float((response["days"][num_day_line]["hours"][num_hour_line]["temp"]-32)/1.8)))
+            #     humidity.append(float(response["days"][num_day_line]["hours"][num_hour_line]['humidity']))
+            #     windspeed.append(float(response["days"][num_day_line]["hours"][num_hour_line]['windspeed']))
+            #     uvindex.append(float(response["days"][num_day_line]["hours"][num_hour_line]['uvindex']))
+            #     day = str(response["days"][num_day_line]["datetime"])
+
+            #     if (num_hour_line>22):
+            #         num_day_line+=1
+            #         num_hour_line=2
+            #         datetime = []
+            #         temp = []
+            #         humidity = []
+            #         windspeed = []
+            #         uvindex = []
+
+            #     print(datetime)
+            #     print('========================================')
+            #     print(temp)
+            #     print('========================================')
+            #     print(humidity)
+            #     print('========================================')
+            #     print(windspeed)
+            #     print('========================================')
+            #     print(uvindex)
+            #     print('========================================')
+            #     print(num_day_line)
+            #     print(num_hour_line)
+            #     plt.cla()
+            #     self.fig.suptitle('Line Graph: Weather forecast for the next few hours of date {}'.format(day),size=9)
+            #     plt.plot(datetime, humidity, 'b', label='Humidity (%)')
+            #     plt.plot(datetime, temp, 'r', label='Temp (℃)')
+            #     plt.plot(datetime, windspeed, 'g', label='Wind speed (m/s)')
+            #     # plt.plot(datetime, uvindex,'y', label="UV index")
+            #     plt.xticks(fontsize = 5, rotation = 20)
+            #     plt.legend(loc='best')
+            #     plt.xlabel("Time")
+            #     plt.ylabel("Index")  
+                
+            # ani = FuncAnimation(fig=self.fig, func=animate, interval=1000, repeat=True)
+            # ani.save('AnimatedPlot.gif', writer='imagemagick', fps=2)
+            for i in range(time_to_get):
                 datetime.append(str(response["days"][0]["hours"][i]["datetime"]))
                 temp.append(round(float((response["days"][0]["hours"][i]["temp"]-32)/1.8)))
                 humidity.append(float(response["days"][0]["hours"][i]['humidity']))
                 windspeed.append(float(response["days"][0]["hours"][i]['windspeed']))
-                uvindex.append(float(response["days"][0]["hours"][i]['uvindex']))
+                uvindex.append(float(response["days"][0]["hours"][i]['uvindex']))   
+            
+            fig ,ax = plt.subplots(1, dpi=100, figsize=(8, 8), 
+            sharey=True, facecolor='white')
             plt.clf()
-            self.fig.suptitle('Line Graph: Weather forecast for the next few hours',size=9)
+            fig.suptitle('Line Graph: Weather forecast for the next few hours',size=9)
             plt.plot(datetime, humidity, 'b', label='Humidity (%)')
             plt.plot(datetime, temp, 'r', label='Temp (℃)')
             plt.plot(datetime, windspeed, 'g', label='Wind speed (m/s)')
@@ -410,7 +628,8 @@ class Canvas_grafica(FigureCanvas):
             plt.xticks(fontsize = 5, rotation = 20)
             plt.legend(loc='best')
             plt.xlabel("Time")
-            plt.ylabel("Index")      
+            plt.ylabel("Index")   
+
         else:
             try:
                 df = pd.read_csv(link)
@@ -462,6 +681,7 @@ class Canvas_grafica2(FigureCanvas):
             plt.legend(loc='best')
             plt.xlabel("Time")
             plt.ylabel("Index")     
+            
         else:
             try:
                 df = pd.read_csv(link) 

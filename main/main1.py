@@ -35,8 +35,10 @@ uvindex = []
 link = ""   
 mode = 0
 location = ''
-response={}
-time_to_get = 8    #Sô kết quả lấy dữ liệu api (3 tiếng cho 1 kết quả)
+#Có thể chỉnh thông số
+rtm0 = 29   #Góc quay trục x của mode chọn file
+rtm1 = 15   #Góc quay trục x mode input name city
+time_to_get = 14    #Sô kết quả lấy dữ liệu api (3 tiếng cho 1 kết quả)
 _translate = QtCore.QCoreApplication.translate
 call_url = 'https://api.openweathermap.org/data/2.5/weather?lat=10.850145464871641&lon=106.7716601973813&appid=d80948795e2ec6257f1f62303cf81808&lang=vi'
 response = requests.get(call_url)
@@ -152,8 +154,8 @@ class MiApp(QMainWindow):
         # câp nhật thời gian
         self.ui.Time.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" color:#000000;\">7:10</span></p></body></html>"))
         timer= QtCore.QTime.currentTime()
-        text_time= timer.toString("HH:mm")
-        self.ui.Time.setText(text_time)
+        text= timer.toString("HH:mm")
+        self.ui.Time.setText(text)
 
     def update_temperature(self):
         self.current_temperature = int(data["main"]["temp"]-273)
@@ -168,6 +170,7 @@ class MiApp(QMainWindow):
 		background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:{stop_val1} rgba(245, 245, 245, 255), stop:{stop_val2} rgba(0, 0, 0, 0));"""
         stop2 = str(value * -0.00749 + 1)
         stop1 = str(value * -0.00749 + 1 - 0.01)
+
         styleSheet = styleSheet.replace("{stop_val1}", stop1).replace("{stop_val2}", stop2)
         self.ui.frame_32.setStyleSheet(styleSheet)
 
@@ -178,9 +181,10 @@ class MiApp(QMainWindow):
     
     def KK_Gauge_Humi(self, value):
         styleSheet = """border-radius: 100px;
-		background-color:qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:{stop_val1} rgba(245, 245, 245, 255), stop:{stop_val2} rgba(0, 0, 0, 0));"""
+		background-color: qconicalgradient(cx:0.5, cy:0.5, angle:224.5, stop:0 rgba(245, 245, 245, 255), stop:{stop_val1} rgba(245, 245, 245, 255), stop:{stop_val2} rgba(0, 0, 0, 0));"""
         stop2 = str(value * -0.00749 + 1)
         stop1 = str(value * -0.00749 + 1 - 0.01)
+
         styleSheet = styleSheet.replace("{stop_val1}", stop1).replace("{stop_val2}", stop2)
         self.ui.frame_34.setStyleSheet(styleSheet)
 
@@ -228,9 +232,8 @@ class MiApp(QMainWindow):
         global temp
         global humidity
         global windspeed
-        global uvindex
+        # global uvindex
         global mode
-        global response
         #Xóa data cũ, đặt trong try sẽ trừ trường hợp lỗi
         try:
             self.remove()
@@ -270,11 +273,17 @@ class MiApp(QMainWindow):
                 self.ui.notice_label.setText("Error code 3")
         #Trường hợp còn lại lấy dữ liệu API thời gian thực theo tên thành phố để vẽ
         else:
-            api_key = 'TQ39TAZE5EZHHYRGNANAQ5JJB'
+            api_key = 'ba6a67a16c5be47d1383d19b93965582'
             city = self.ui.lineEdit.text()
-            url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' + city + '?key=' + api_key
+            url = 'http://api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=' + api_key
             try:
                 response = requests.get(url).json()
+                for i in range(time_to_get):
+                    datetime.append(str(response['list'][i]['dt_txt']))
+                    temp.append(round(float(response['list'][i]['main']['temp'])-273.15))
+                    humidity.append(float(response['list'][i]['main']['humidity']))
+                    windspeed.append(float(response['list'][i]['wind']['speed']))
+                    # uvindex.append(float(response['list'][i]['main']['uvi'])) 
                 mode = 1
                 self.draw()
                 mode = 0
@@ -381,36 +390,30 @@ class MiApp(QMainWindow):
 #Biêu đồ line
 class Canvas_grafica(FigureCanvas):
     def __init__(self, parent=None):     
-        self.fig , self.ax = plt.subplots(1, dpi=100, figsize=(6, 6), 
+        self.fig , self.ax = plt.subplots(1, dpi=100, figsize=(4, 4), 
             sharey=True, facecolor='white') 
         super().__init__(self.fig) 
         global link
         global mode
+        global rtm0
+        global rtm1
         global datetime
         global temp
         global uvindex
         global humidity
+
         global windspeed
-        global response
-
-
         if mode == 1:
-            for i in range(5,18):
-                datetime.append(str(response["days"][0]["hours"][i]["datetime"]))
-                temp.append(round(float((response["days"][0]["hours"][i]["temp"]-32)/1.8)))
-                humidity.append(float(response["days"][0]["hours"][i]['humidity']))
-                windspeed.append(float(response["days"][0]["hours"][i]['windspeed']))
-                uvindex.append(float(response["days"][0]["hours"][i]['uvindex']))
             plt.clf()
             self.fig.suptitle('Line Graph: Weather forecast for the next few hours',size=9)
             plt.plot(datetime, humidity, 'b', label='Humidity (%)')
             plt.plot(datetime, temp, 'r', label='Temp (℃)')
             plt.plot(datetime, windspeed, 'g', label='Wind speed (m/s)')
-            plt.plot(datetime,uvindex,'y', label="UV index")
-            plt.xticks(fontsize = 5, rotation = 20)
+            # plt.plot(datetime,uvindex,'blue', label="UV index")
+            plt.xticks(fontsize = 6, rotation = rtm1)
             plt.legend(loc='best')
             plt.xlabel("Time")
-            plt.ylabel("Index")      
+            plt.ylabel("Index")     
         else:
             try:
                 df = pd.read_csv(link)
@@ -419,7 +422,7 @@ class Canvas_grafica(FigureCanvas):
                 plt.plot(df['datetime'], df['temp'], 'r', label='Temp (℃)')
                 plt.plot(df['datetime'], df['windspeed'], 'g', label='Wind speed (kph)')
                 plt.plot(df['datetime'], df['uvindex'], 'y', label='UV index')
-                plt.xticks(fontsize = 5, rotation = 20)
+                plt.xticks(fontsize = 6, rotation = rtm0)
                 plt.legend(loc='best')
                 plt.xlabel("Time")
                 plt.ylabel("Index")
@@ -430,35 +433,26 @@ class Canvas_grafica(FigureCanvas):
 #Biêu đồ scatter
 class Canvas_grafica2(FigureCanvas):
     def __init__(self, parent=None):     
-        self.fig , self.ax = plt.subplots(1,dpi=100, figsize=(6, 6), 
+        self.fig , self.ax = plt.subplots(1,dpi=100, figsize=(4, 4), 
             sharey=True, facecolor='white')
         super().__init__(self.fig) 
         global link
-        global mode       
+        global mode
+        global rtm0
+        global rtm1        
         global datetime
         global temp
         global uvindex
         global humidity
-        global windspeed    
-
-        global response
-
-        
+        global windspeed
         if mode == 1:
-            for i in range(time_to_get):
-                datetime.append(str(response["days"][i]["datetime"]))
-                temp.append(round(float((response["days"][i]["temp"]-32)/1.8)))
-                humidity.append(float(response["days"][i]['humidity']))
-                windspeed.append(float(response["days"][i]['windspeed']))
-                uvindex.append(float(response["days"][i]['uvindex'])) 
-
             plt.clf()
             self.fig.suptitle('Scatter Plot: Weather forecast for next few hours',size=9)
             plt.scatter(datetime, humidity, s=50, c='blue', label='Humidity (%)')
             plt.scatter(datetime, temp, s=50, c='red', label='Temp (℃)')
             plt.scatter(datetime, windspeed, s=50, c='green', label='Wind speed (m/s)')
-            plt.scatter(datetime,uvindex, s=50,c='y', label="UV index")
-            plt.xticks(fontsize = 5, rotation = 20)
+            # plt.scatter(datetime,uvindex,'blue', label="UV index")
+            plt.xticks(fontsize = 6, rotation = rtm1)
             plt.legend(loc='best')
             plt.xlabel("Time")
             plt.ylabel("Index")     
@@ -470,7 +464,7 @@ class Canvas_grafica2(FigureCanvas):
                 plt.scatter(df.datetime, df.temp, s=50, c='red', label='Temp (℃)')
                 plt.scatter(df.datetime, df.windspeed,s=50, c='green', label='Wind speed (kph)')
                 plt.scatter(df.datetime, df.uvindex, s=50, c='yellow', label='UV index')
-                plt.xticks(fontsize = 5, rotation = 20)
+                plt.xticks(fontsize = 6, rotation = rtm0)
                 plt.legend(loc='best')
                 plt.xlabel("Time")
                 plt.ylabel("Index") 
@@ -481,38 +475,31 @@ class Canvas_grafica2(FigureCanvas):
 #Biêu đồ bar
 class Canvas_grafica3(FigureCanvas):
     def __init__(self, parent=None):     
-        self.fig , self.ax = plt.subplots(1, dpi=100, figsize=(6, 6), 
+        self.fig , self.ax = plt.subplots(1, dpi=100, figsize=(4, 4), 
             sharey=True, facecolor='white')
         super().__init__(self.fig) 
         global link
         global mode
+        global rtm0
+        global rtm1
         global datetime
         global temp
         global humidity
         global windspeed
-        global uvindex 
-        global response
+        global uvindex
 
         if mode == 1:
-           
-
-            for i in range(time_to_get):
-                datetime.append(str(response["days"][i]["datetime"]))
-                temp.append(round(float((response["days"][i]["temp"]-32)/1.8)))
-                humidity.append(float(response["days"][i]['humidity']))
-                windspeed.append(float(response["days"][i]['windspeed']))
-                uvindex.append(float(response["days"][i]['uvindex'])) 
-
             plt.clf()
             self.fig.suptitle('Bar Plot: Weather forecast for next few hours',size=9)
-            plt.bar(datetime,humidity,width=-0.4,align='edge',color='b',label='Humidity (%)')
-            plt.bar(datetime,temp,width=0.4,align='edge',color='r',label='Temp (℃)')
-            plt.bar(datetime,windspeed,width=0.4,align='edge',color='g',label='Wind speed (m/s)')
-            plt.bar(datetime,uvindex,width=0.4,align='edge',color='y', label="UV index")
+            plt.bar(datetime,humidity,width=-0.4,align='edge',label='Humidity (%)')
+            plt.bar(datetime,temp,width=0.4,align='edge',label='Temp (℃)')
+            plt.bar(datetime,windspeed,color='red',label='Wind speed (m/s)')
+            # plt.bar(datetime,uvindex,'blue', label="UV index")
             plt.legend(loc='best')
-            plt.xticks(fontsize = 5, rotation = 20)
+            plt.xticks(fontsize = 6, rotation = rtm1)
+            #plt.title("Raining precipitaion in Ho Chi Minh city for 14 days")
             plt.xlabel("Time")
-            plt.ylabel("Index") 
+            plt.ylabel("Index")  
         else:
             try:
                 df2 = pd.read_csv(link)
@@ -520,7 +507,7 @@ class Canvas_grafica3(FigureCanvas):
                 plt.bar(df2['datetime'],df2['precipcover'],width=0.4,align='edge',label='Precip-cover (%)')
                 plt.plot(df2['datetime'],df2['temp'])
                 plt.legend(loc='best')
-                plt.xticks(fontsize = 5, rotation = 20)
+                plt.xticks(fontsize = 6, rotation = rtm0)
                 self.fig.suptitle("Bar Plot: Raining precipitaion for 14 days",size=9)
                 plt.xlabel("Time")
                 plt.ylabel("Index")
@@ -531,21 +518,13 @@ class Canvas_grafica3(FigureCanvas):
 #Biểu đồ histogram
 class Canvas_grafica4(FigureCanvas):
     def __init__(self, parent=None):     
-        self.fig , self.ax = plt.subplots(1, dpi=100, figsize=(6, 6), 
+        self.fig , self.ax = plt.subplots(1, dpi=100, figsize=(4, 4), 
             sharey=True, facecolor='white')
         super().__init__(self.fig) 
         global link
         global mode
         global temp
-        global response
-
         if mode == 1:
-            for i in range(time_to_get):
-                datetime.append(str(response["days"][i]["datetime"]))
-                temp.append(round(float((response["days"][i]["temp"]-32)/1.8)))
-                humidity.append(float(response["days"][i]['humidity']))
-                windspeed.append(float(response["days"][i]['windspeed']))
-                uvindex.append(float(response["days"][i]['uvindex'])) 
             temp1 = pd.Series(temp)
             temp1.plot.hist(align='mid',bins=50)
             avarange=np.median(np.array(temp1))
@@ -553,7 +532,7 @@ class Canvas_grafica4(FigureCanvas):
             plt.axvline(avarange,color='red',label="Avarange temperature")
             plt.xlabel('Temperature')
             plt.ylabel('Index')
-            plt.xticks(fontsize = 5, rotation = 20)
+            plt.xticks(fontsize = 6)
             self.fig.suptitle("Histogram: Temperature for next few hours",size=9)
             plt.legend(loc='best')
         else:
@@ -562,8 +541,9 @@ class Canvas_grafica4(FigureCanvas):
             temp1.plot.hist(align='mid',bins=50)
             avarange=np.median(np.array(df2['temp']))
             plt.axvline(avarange,color='red',label="Avarange temperature") 
+            plt.xlabel('Temperature')
             plt.ylabel('Index')
-            plt.xticks(fontsize = 5, rotation = 20)
+            plt.xticks(fontsize = 6)
             self.fig.suptitle("Histogram: Temperature for 14 days",size=9)
             plt.legend(loc='best')
 

@@ -211,8 +211,10 @@ border-radius: 100px;</string>
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgba(28, 29, 73, 255);
-border-radius: 100px;</string>
+             <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:0.398721 rgba(255, 255, 255, 255), stop:0.402985 rgba(231, 231, 231, 0), stop:0.59204 rgba(255, 255, 255, 0), stop:0.592751 rgba(255, 255, 255, 255));
+border-radius: 100px;
+
+</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -248,7 +250,7 @@ border-radius: 100px;</string>
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">background-color:rgba(42, 44, 111, 255);
+                <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:0.169154 rgba(42, 44, 111, 255), stop:0.402606 rgba(42, 44, 111, 255), stop:0.402985 rgba(231, 231, 231, 0), stop:0.59204 rgba(255, 255, 255, 0), stop:0.592262 rgba(42, 44, 111, 255), stop:0.905537 rgba(42, 44, 111, 255));
 border-radius: 86px;</string>
                </property>
                <property name="frameShape">
@@ -498,7 +500,7 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:270.7, stop:0.189055 rgba(85, 0, 127, 255), stop:0.343284 rgba(0, 0, 255, 255), stop:0.502488 rgba(0, 170, 0, 255), stop:0.661692 rgba(255, 255, 0, 255), stop:0.80597 rgba(255, 0, 0, 255));
+          <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:0.164179 rgba(255, 255, 0, 255), stop:0.383085 rgba(0, 255, 0, 255), stop:0.402985 rgba(231, 231, 231, 0), stop:0.59204 rgba(255, 255, 255, 0), stop:0.616915 rgba(255, 24, 24, 255), stop:0.905473 rgba(255, 159, 58, 255));
 border-radius: 100px;</string>
          </property>
          <property name="frameShape">
@@ -541,7 +543,8 @@ border-radius: 100px;</string>
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgba(28, 29, 73, 255);
+             <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:0.398721 rgba(255, 255, 255, 255), stop:0.402985 rgba(231, 231, 231, 0), stop:0.59204 rgba(255, 255, 255, 0), stop:0.592751 rgba(255, 255, 255, 255));
+
 border-radius: 100px;</string>
             </property>
             <property name="frameShape">
@@ -578,7 +581,7 @@ border-radius: 100px;</string>
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">background-color:rgba(42, 44, 111, 255);
+                <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:0.169154 rgba(42, 44, 111, 255), stop:0.402606 rgba(42, 44, 111, 255), stop:0.402985 rgba(231, 231, 231, 0), stop:0.59204 rgba(255, 255, 255, 0), stop:0.592262 rgba(42, 44, 111, 255), stop:0.905537 rgba(42, 44, 111, 255));
 border-radius: 86px;</string>
                </property>
                <property name="frameShape">
