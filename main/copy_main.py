@@ -17,12 +17,15 @@ import matplotlib.pyplot as plt
 from PySide2 import QtGui
 from PySide2.QtGui import QIcon
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import  NavigationToolbar2QT as NavigationToolbar
 from PySide2 import QtCore, QtGui, QtWidgets
 from PySide2.QtWidgets import *
 from PySide2.QtGui import ( QColor, QIcon)
 from PySide2.QtCore import (QCoreApplication, QSize)
 from splash_screen import *
 from threading import *
+from matplotlib.animation import FuncAnimation, PillowWriter
+from matplotlib.figure import Figure
 
 language = 'vi'
 counter = 0
@@ -41,6 +44,8 @@ _translate = QtCore.QCoreApplication.translate
 call_url = 'https://api.openweathermap.org/data/2.5/weather?lat=10.850145464871641&lon=106.7716601973813&appid=d80948795e2ec6257f1f62303cf81808&lang=vi'
 response = requests.get(call_url)
 data = response.json()
+num_hour_line =2
+num_day_line = 0
 
 class AnotherWindow(QWidget):
     def __init__(self):
@@ -196,21 +201,67 @@ class MiApp(QMainWindow):
 
     #Hàm vẽ biểu đồ lên màn hình   
     def draw(self):
-        self.grafica = Canvas_grafica1()
-        self.grafica1 = Canvas_grafica2()
-        self.grafica2 = Canvas_grafica3()
-        self.grafica3 = Canvas_grafica4()
-        self.ui.line_chart.addWidget(self.grafica)
-        self.ui.scatter_chart.addWidget(self.grafica1)
-        self.ui.bar_chart.addWidget(self.grafica2)
-        self.ui.histogram_chart.addWidget(self.grafica3)
-        
+        # self.figline = Figure(figsize=(6, 6))
+        # self.update()
+        # self.canvas1 = FigureCanvas(self.figline)
+        self.ui.line_chart.addWidget(Canvas_grafica())
+        self.ui.scatter_chart.addWidget(Canvas_grafica2())
+        self.ui.bar_chart.addWidget(Canvas_grafica3())
+        self.ui.histogram_chart.addWidget(Canvas_grafica4())
+    
+    def animate(self,h):
+        global num_day_line,num_hour_line,datetime,temp,humidity,windspeed,uvindex
+        num_hour_line+=1
+        self.figline , self.ax = plt.subplots(1,dpi=100, figsize=(6, 6), 
+    sharey=True, facecolor='white')
+        datetime.append(str(response["days"][num_day_line]["hours"][num_hour_line]["datetime"]))
+        temp.append(round(float((response["days"][num_day_line]["hours"][num_hour_line]["temp"]-32)/1.8)))
+        humidity.append(float(response["days"][num_day_line]["hours"][num_hour_line]['humidity']))
+        windspeed.append(float(response["days"][num_day_line]["hours"][num_hour_line]['windspeed']))
+        uvindex.append(float(response["days"][num_day_line]["hours"][num_hour_line]['uvindex']))
+        day = str(response["days"][num_day_line]["datetime"])
+
+        if (num_hour_line>22):
+            num_day_line+=1
+            num_hour_line=2
+            datetime = []
+            temp = []
+            humidity = []
+            windspeed = []
+            uvindex = []
+
+        print(datetime)
+        print('========================================')
+        print(temp)
+        print('========================================')
+        print(humidity)
+        print('========================================')
+        print(windspeed)
+        print('========================================')
+        print(uvindex)
+        print('========================================')
+        print(num_day_line)
+        print(num_hour_line)
+        plt.cla()
+        self.figline.suptitle('Line Graph: Weather forecast for the next few hours of date {}'.format(day),size=9)
+        plt.plot(datetime, humidity, 'b', label='Humidity (%)')
+        plt.plot(datetime, temp, 'r', label='Temp (℃)')
+        plt.plot(datetime, windspeed, 'g', label='Wind speed (m/s)')
+        # plt.plot(datetime, uvindex,'y', label="UV index")
+        plt.xticks(fontsize = 5, rotation = 20)
+        plt.legend(loc='best')
+        plt.xlabel("Time")
+        plt.ylabel("Index")  
+        plt.tight_layout()
+    
+    def update(self):
+        self.anim = FuncAnimation(self.figline, self.animate, interval = 10000)
     
     def remove(self):
-        self.ui.line_chart.removeWidget(self.grafica)
-        self.ui.scatter_chart.removeWidget(self.grafica1)
-        self.ui.bar_chart.removeWidget(self.grafica2)
-        self.ui.histogram_chart.removeWidget(self.grafica3)          
+        self.ui.line_chart.removeWidget(Canvas_grafica())
+        self.ui.scatter_chart.removeWidget(Canvas_grafica2())
+        self.ui.bar_chart.removeWidget(Canvas_grafica3())
+        self.ui.histogram_chart.removeWidget(Canvas_grafica4())          
 
     #Thiết lập hoạt động cho load_button
     def bt_load(self):
@@ -380,7 +431,7 @@ class MiApp(QMainWindow):
         self.ui.lineEdit.insert(location)
 
 #Biêu đồ line
-class Canvas_grafica1(FigureCanvas):
+class Canvas_grafica(FigureCanvas):
     def __init__(self, parent=None):     
         self.fig , self.ax = plt.subplots(1, dpi=100, figsize=(6, 6), 
             sharey=True, facecolor='white') 
@@ -396,14 +447,61 @@ class Canvas_grafica1(FigureCanvas):
 
 
         if mode == 1:
-            for i in range(5,18):
+            # def animate(self,h):
+            #     global num_day_line,num_hour_line,datetime,temp,humidity,windspeed,uvindex
+            #     num_hour_line+=1
+            #     datetime.append(str(response["days"][num_day_line]["hours"][num_hour_line]["datetime"]))
+            #     temp.append(round(float((response["days"][num_day_line]["hours"][num_hour_line]["temp"]-32)/1.8)))
+            #     humidity.append(float(response["days"][num_day_line]["hours"][num_hour_line]['humidity']))
+            #     windspeed.append(float(response["days"][num_day_line]["hours"][num_hour_line]['windspeed']))
+            #     uvindex.append(float(response["days"][num_day_line]["hours"][num_hour_line]['uvindex']))
+            #     day = str(response["days"][num_day_line]["datetime"])
+
+            #     if (num_hour_line>22):
+            #         num_day_line+=1
+            #         num_hour_line=2
+            #         datetime = []
+            #         temp = []
+            #         humidity = []
+            #         windspeed = []
+            #         uvindex = []
+
+            #     print(datetime)
+            #     print('========================================')
+            #     print(temp)
+            #     print('========================================')
+            #     print(humidity)
+            #     print('========================================')
+            #     print(windspeed)
+            #     print('========================================')
+            #     print(uvindex)
+            #     print('========================================')
+            #     print(num_day_line)
+            #     print(num_hour_line)
+            #     plt.cla()
+            #     self.fig.suptitle('Line Graph: Weather forecast for the next few hours of date {}'.format(day),size=9)
+            #     plt.plot(datetime, humidity, 'b', label='Humidity (%)')
+            #     plt.plot(datetime, temp, 'r', label='Temp (℃)')
+            #     plt.plot(datetime, windspeed, 'g', label='Wind speed (m/s)')
+            #     # plt.plot(datetime, uvindex,'y', label="UV index")
+            #     plt.xticks(fontsize = 5, rotation = 20)
+            #     plt.legend(loc='best')
+            #     plt.xlabel("Time")
+            #     plt.ylabel("Index")  
+                
+            # ani = FuncAnimation(fig=self.fig, func=animate, interval=1000, repeat=True)
+            # ani.save('AnimatedPlot.gif', writer='imagemagick', fps=2)
+            for i in range(time_to_get):
                 datetime.append(str(response["days"][0]["hours"][i]["datetime"]))
                 temp.append(round(float((response["days"][0]["hours"][i]["temp"]-32)/1.8)))
                 humidity.append(float(response["days"][0]["hours"][i]['humidity']))
                 windspeed.append(float(response["days"][0]["hours"][i]['windspeed']))
-                uvindex.append(float(response["days"][0]["hours"][i]['uvindex']))
-
-            self.fig.suptitle('Line Graph: Weather forecast for the next few hours',size=9)
+                uvindex.append(float(response["days"][0]["hours"][i]['uvindex']))   
+            
+            fig ,ax = plt.subplots(1, dpi=100, figsize=(8, 8), 
+            sharey=True, facecolor='white')
+            plt.clf()
+            fig.suptitle('Line Graph: Weather forecast for the next few hours',size=9)
             plt.plot(datetime, humidity, 'b', label='Humidity (%)')
             plt.plot(datetime, temp, 'r', label='Temp (℃)')
             plt.plot(datetime, windspeed, 'g', label='Wind speed (m/s)')
@@ -411,7 +509,8 @@ class Canvas_grafica1(FigureCanvas):
             plt.xticks(fontsize = 5, rotation = 20)
             plt.legend(loc='best')
             plt.xlabel("Time")
-            plt.ylabel("Index")      
+            plt.ylabel("Index")   
+
         else:
             try:
                 df = pd.read_csv(link)
@@ -428,7 +527,7 @@ class Canvas_grafica1(FigureCanvas):
                 pass
 
 
-#Biêu đồ box
+#Biêu đồ scatter
 class Canvas_grafica2(FigureCanvas):
     def __init__(self, parent=None):     
         self.fig , self.ax = plt.subplots(1,dpi=100, figsize=(6, 6), 
@@ -441,40 +540,29 @@ class Canvas_grafica2(FigureCanvas):
         global uvindex
         global humidity
         global windspeed    
+
         global response
-        colum = []
-        labels = []
-        temp = []
+
         
         if mode == 1:
-            dist={}
-            for i in range(10):
-                for j in range(23):
-                    temp.append(round(float((response["days"][i]["hours"][j]["temp"]-32)/1.8)))        
-                dist[str(response["days"][i]["datetime"])] = temp
-                temp = []
+            for i in range(time_to_get):
+                datetime.append(str(response["days"][i]["datetime"]))
+                temp.append(round(float((response["days"][i]["temp"]-32)/1.8)))
+                humidity.append(float(response["days"][i]['humidity']))
+                windspeed.append(float(response["days"][i]['windspeed']))
+                uvindex.append(float(response["days"][i]['uvindex'])) 
 
-            data1= pd.DataFrame(dist)
-            # print(data1)
-            for i in data1.columns:
-                labels.append(i)
-                colum.append(data1[i])
-            k =[]
-            for i in range(1,len(labels)+1):
-                k.append(i)
-            # print(colum)
-            self.fig.suptitle('Scatter Plot: Weather forecast for 14 days',size=9)
+            plt.clf()
+            self.fig.suptitle('Scatter Plot: Weather forecast for next few hours',size=9)
+            plt.scatter(datetime, humidity, s=50, c='blue', label='Humidity (%)')
+            plt.scatter(datetime, temp, s=50, c='red', label='Temp (℃)')
+            plt.scatter(datetime, windspeed, s=50, c='green', label='Wind speed (m/s)')
+            plt.scatter(datetime,uvindex, s=50,c='y', label="UV index")
+            plt.xticks(fontsize = 5, rotation = 20)
+            plt.legend(loc='best')
+            plt.xlabel("Time")
+            plt.ylabel("Index")     
             
-            box= self.ax.boxplot(colum, notch=True, patch_artist=True)
-            colors = ['#0000FF', '#00FF00','#aaaa00','#00ffff','#00557f','#aaaaff','#aaff7f',
-                        '#ff5500','#FFFF00', '#FF00FF','#ff007f','#55ffff','#ffaa00','#55aaff']
-
-            for patch, color in zip(box['boxes'], colors):
-                patch.set_facecolor(color)
-            plt.xticks(k,labels,fontsize = 5, rotation = 20)
-            plt.xlabel("Day")
-            plt.ylabel("Temp") 
-            print('hoan tat ve ')
         else:
             try:
                 df = pd.read_csv(link) 
@@ -505,23 +593,18 @@ class Canvas_grafica3(FigureCanvas):
         global windspeed
         global uvindex 
         global response
-        datetime = []
-        temp= []
-        humidity = []
-        windspeed = []
-        uvindex = []
-
 
         if mode == 1:
            
 
-            for i in range(10):
+            for i in range(time_to_get):
                 datetime.append(str(response["days"][i]["datetime"]))
                 temp.append(round(float((response["days"][i]["temp"]-32)/1.8)))
                 humidity.append(float(response["days"][i]['humidity']))
                 windspeed.append(float(response["days"][i]['windspeed']))
                 uvindex.append(float(response["days"][i]['uvindex'])) 
 
+            plt.clf()
             self.fig.suptitle('Bar Plot: Weather forecast for next few hours',size=9)
             plt.bar(datetime,humidity,width=-0.4,align='edge',color='b',label='Humidity (%)')
             plt.bar(datetime,temp,width=0.4,align='edge',color='r',label='Temp (℃)')
@@ -558,7 +641,7 @@ class Canvas_grafica4(FigureCanvas):
         global response
 
         if mode == 1:
-            for i in range(10):
+            for i in range(time_to_get):
                 datetime.append(str(response["days"][i]["datetime"]))
                 temp.append(round(float((response["days"][i]["temp"]-32)/1.8)))
                 humidity.append(float(response["days"][i]['humidity']))
@@ -585,105 +668,105 @@ class Canvas_grafica4(FigureCanvas):
             self.fig.suptitle("Histogram: Temperature for 14 days",size=9)
             plt.legend(loc='best')
 
-# class SplashScreen(QMainWindow):
-#     def __init__(self):
-#         counter = 0
-#         QMainWindow.__init__(self)
-#         self.ui = Ui_SplashScreen()
-#         self.ui.setupUi(self)
+class SplashScreen(QMainWindow):
+    def __init__(self):
+        counter = 0
+        QMainWindow.__init__(self)
+        self.ui = Ui_SplashScreen()
+        self.ui.setupUi(self)
 
-#         ## ==> SET INITIAL PROGRESS BAR TO (0) ZERO
-#         self.progressBarValue(0)
+        ## ==> SET INITIAL PROGRESS BAR TO (0) ZERO
+        self.progressBarValue(0)
 
-#         ## ==> REMOVE STANDARD TITLE BAR
-#         self.setWindowFlags(QtCore.Qt.FramelessWindowHint) # Remove title bar
-#         self.setAttribute(QtCore.Qt.WA_TranslucentBackground) # Set background to transparent
+        ## ==> REMOVE STANDARD TITLE BAR
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint) # Remove title bar
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground) # Set background to transparent
 
-#         ## ==> APPLY DROP SHADOW EFFECT
-#         self.shadow = QGraphicsDropShadowEffect(self)
-#         self.shadow.setBlurRadius(20)
-#         self.shadow.setXOffset(0)
-#         self.shadow.setYOffset(0)
-#         self.shadow.setColor(QColor(0, 0, 0, 120))
-#         self.ui.circularBg.setGraphicsEffect(self.shadow)
+        ## ==> APPLY DROP SHADOW EFFECT
+        self.shadow = QGraphicsDropShadowEffect(self)
+        self.shadow.setBlurRadius(20)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setColor(QColor(0, 0, 0, 120))
+        self.ui.circularBg.setGraphicsEffect(self.shadow)
 
-#         ## QTIMER ==> START
-#         self.timer = QtCore.QTimer()
-#         self.timer.timeout.connect(self.progress)
-#         # TIMER IN MILLISECONDS
-#         self.timer.start(10)
+        ## QTIMER ==> START
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.progress)
+        # TIMER IN MILLISECONDS
+        self.timer.start(10)
 
-#         ## SHOW ==> MAIN WINDOW
-#         ########################################################################
-#         self.show()
-#         ## ==> END ##
+        ## SHOW ==> MAIN WINDOW
+        ########################################################################
+        self.show()
+        ## ==> END ##
 
-#     ## DEF TO LOANDING
-#     ########################################################################
-#     def progress (self):
-#         global counter
-#         global jumper
-#         value = counter
+    ## DEF TO LOANDING
+    ########################################################################
+    def progress (self):
+        global counter
+        global jumper
+        value = counter
 
-#         # HTML TEXT PERCENTAGE
-#         htmlText = """<p><span style=" font-size:68pt;">{VALUE}</span><span style=" font-size:58pt; vertical-align:super;">%</span></p>"""
+        # HTML TEXT PERCENTAGE
+        htmlText = """<p><span style=" font-size:68pt;">{VALUE}</span><span style=" font-size:58pt; vertical-align:super;">%</span></p>"""
 
-#         # REPLACE VALUE
-#         newHtml = htmlText.replace("{VALUE}", str(jumper))
+        # REPLACE VALUE
+        newHtml = htmlText.replace("{VALUE}", str(jumper))
 
-#         if(value > jumper):
-#             # APPLY NEW PERCENTAGE TEXT
-#             self.ui.labelPercentage.setText(newHtml)
-#             jumper += 10
+        if(value > jumper):
+            # APPLY NEW PERCENTAGE TEXT
+            self.ui.labelPercentage.setText(newHtml)
+            jumper += 10
 
-#         # SET VALUE TO PROGRESS BAR
-#         # fix max value error if > than 100
-#         if value >= 100: value = 1.000
-#         self.progressBarValue(value)
+        # SET VALUE TO PROGRESS BAR
+        # fix max value error if > than 100
+        if value >= 100: value = 1.000
+        self.progressBarValue(value)
 
-#         # CLOSE SPLASH SCREE AND OPEN APP
-#         if counter > 95:
-#             # STOP TIMER
-#             self.timer.stop()
+        # CLOSE SPLASH SCREE AND OPEN APP
+        if counter > 95:
+            # STOP TIMER
+            self.timer.stop()
 
-#             # SHOW MAIN WINDOW
-#             self.main = MiApp()
-#             self.main.show()
+            # SHOW MAIN WINDOW
+            self.main = MiApp()
+            self.main.show()
 
-#             # CLOSE SPLASH SCREEN
-#             self.close()
+            # CLOSE SPLASH SCREEN
+            self.close()
 
-#         # INCREASE COUNTER
-#         counter += 0.5
+        # INCREASE COUNTER
+        counter += 0.5
 
-#     ## DEF PROGRESS BAR VALUE
-#     ########################################################################
-#     def progressBarValue(self, value):
+    ## DEF PROGRESS BAR VALUE
+    ########################################################################
+    def progressBarValue(self, value):
 
-#         # PROGRESSBAR STYLESHEET BASE
-#         styleSheet = """
-#         QFrame{
-#         	border-radius: 150px;
-#         	background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:{STOP_1} rgba(255, 0, 127, 0), stop:{STOP_2} rgba(85, 170, 255, 255));
-#         }
-#         """
+        # PROGRESSBAR STYLESHEET BASE
+        styleSheet = """
+        QFrame{
+        	border-radius: 150px;
+        	background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:{STOP_1} rgba(255, 0, 127, 0), stop:{STOP_2} rgba(85, 170, 255, 255));
+        }
+        """
 
-#         # GET PROGRESS BAR VALUE, CONVERT TO FLOAT AND INVERT VALUES
-#         # stop works of 1.000 to 0.000
-#         progress = (100 - value) / 100.0
+        # GET PROGRESS BAR VALUE, CONVERT TO FLOAT AND INVERT VALUES
+        # stop works of 1.000 to 0.000
+        progress = (100 - value) / 100.0
 
-#         # GET NEW VALUES
-#         stop_1 = str(progress - 0.001)
-#         stop_2 = str(progress)
+        # GET NEW VALUES
+        stop_1 = str(progress - 0.001)
+        stop_2 = str(progress)
 
-#         # SET VALUES TO NEW STYLESHEET
-#         newStylesheet = styleSheet.replace("{STOP_1}", stop_1).replace("{STOP_2}", stop_2)
+        # SET VALUES TO NEW STYLESHEET
+        newStylesheet = styleSheet.replace("{STOP_1}", stop_1).replace("{STOP_2}", stop_2)
 
-#         # APPLY STYLESHEET WITH NEW VALUES
-#         self.ui.circularProgress.setStyleSheet(newStylesheet)
+        # APPLY STYLESHEET WITH NEW VALUES
+        self.ui.circularProgress.setStyleSheet(newStylesheet)
 
 #Bắt đấu chương trình chính
 if __name__ == "__main__":
      app = QApplication(sys.argv)
-     window = MiApp()
+     window = SplashScreen()
      sys.exit(app.exec_())  

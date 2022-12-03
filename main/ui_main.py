@@ -29,7 +29,7 @@ class Ui_MainWindow(object):
         MainWindow.setIconSize(QSize(30, 30))
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.centralwidget.setMinimumSize(QSize(1133, 1050))
+        self.centralwidget.setMinimumSize(QSize(1133, 1000))
         self.centralwidget.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(42, 44, 111, 255), stop:0.521368 rgba(28, 29, 73, 255));\n"
 "background-color: rgb(27, 26, 70);")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
