@@ -100,10 +100,10 @@ class Ui_MainWindow(object):
         self.KK_Temp = QFrame(self.frame_2)
         self.KK_Temp.setObjectName(u"KK_Temp")
         self.KK_Temp.setEnabled(True)
-        self.KK_Temp.setMinimumSize(QSize(200, 200))
-        self.KK_Temp.setMaximumSize(QSize(200, 200))
-        self.KK_Temp.setStyleSheet(u"background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:0.164179 rgba(255, 255, 0, 255), stop:0.383085 rgba(0, 255, 0, 255), stop:0.402985 rgba(231, 231, 231, 0), stop:0.59204 rgba(255, 255, 255, 0), stop:0.616915 rgba(255, 24, 24, 255), stop:0.905473 rgba(255, 159, 58, 255));\n"
-"border-radius: 100px;")
+        self.KK_Temp.setMinimumSize(QSize(150, 150))
+        self.KK_Temp.setMaximumSize(QSize(150, 150))
+        self.KK_Temp.setStyleSheet(u"background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:0.040146 rgba(255, 50, 0, 255), stop:0.127737 rgba(243, 78, 14, 255), stop:0.177007 rgba(255, 137, 0, 255), stop:0.235401 rgba(255, 164, 0, 255), stop:0.359489 rgba(212, 255, 0, 255), stop:0.425182 rgba(0, 255, 69, 255), stop:0.44708 rgba(36, 36, 36, 0), stop:0.574359 rgba(72, 72, 72, 0), stop:0.616788 rgba(185, 16, 16, 255), stop:0.762774 rgba(210, 0, 0, 255), stop:0.877737 rgba(255, 0, 0, 255));\n"
+"border-radius: 75px;")
         self.KK_Temp.setFrameShape(QFrame.StyledPanel)
         self.KK_Temp.setFrameShadow(QFrame.Raised)
         self.verticalLayout_83 = QVBoxLayout(self.KK_Temp)
@@ -112,10 +112,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_83.setContentsMargins(0, 0, 0, 0)
         self.frame_32 = QFrame(self.KK_Temp)
         self.frame_32.setObjectName(u"frame_32")
-        self.frame_32.setMinimumSize(QSize(200, 200))
-        self.frame_32.setMaximumSize(QSize(200, 200))
+        self.frame_32.setMinimumSize(QSize(150, 150))
+        self.frame_32.setMaximumSize(QSize(150, 150))
         self.frame_32.setStyleSheet(u"background-color: rgba(28, 29, 73, 255);\n"
-"border-radius: 100px;")
+"border-radius: 75px;")
         self.frame_32.setFrameShape(QFrame.StyledPanel)
         self.frame_32.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_17 = QHBoxLayout(self.frame_32)
@@ -126,7 +126,7 @@ class Ui_MainWindow(object):
         self.frame_33.setMinimumSize(QSize(0, 0))
         self.frame_33.setMaximumSize(QSize(16777215, 16777215))
         self.frame_33.setStyleSheet(u"background-color:rgba(42, 44, 111, 255);\n"
-"border-radius: 86px;")
+"border-radius: 61px;")
         self.frame_33.setFrameShape(QFrame.StyledPanel)
         self.frame_33.setFrameShadow(QFrame.Raised)
         self.verticalLayout_84 = QVBoxLayout(self.frame_33)
@@ -171,8 +171,8 @@ class Ui_MainWindow(object):
 
         self.frame_view = QFrame(self.frame_2)
         self.frame_view.setObjectName(u"frame_view")
-        self.frame_view.setMinimumSize(QSize(640, 200))
-        self.frame_view.setMaximumSize(QSize(640, 200))
+        self.frame_view.setMinimumSize(QSize(640, 150))
+        self.frame_view.setMaximumSize(QSize(640, 150))
         self.frame_view.setStyleSheet(u"border-radius:10px;\n"
 "background-color: rgb(255, 255, 255);")
         self.frame_view.setFrameShape(QFrame.StyledPanel)
@@ -186,6 +186,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.Time = QLabel(self.frame_view)
         self.Time.setObjectName(u"Time")
+        self.Time.setMinimumSize(QSize(0, 65))
         font2 = QFont()
         font2.setFamily(u"Stencil")
         font2.setPointSize(50)
@@ -245,6 +246,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_9)
 
+        self.verticalLayout_4.setStretch(0, 1)
 
         self.horizontalLayout_8.addLayout(self.verticalLayout_4)
 
@@ -278,10 +280,10 @@ class Ui_MainWindow(object):
         self.KK_Humi = QFrame(self.frame_2)
         self.KK_Humi.setObjectName(u"KK_Humi")
         self.KK_Humi.setEnabled(False)
-        self.KK_Humi.setMinimumSize(QSize(200, 200))
-        self.KK_Humi.setMaximumSize(QSize(200, 200))
+        self.KK_Humi.setMinimumSize(QSize(150, 150))
+        self.KK_Humi.setMaximumSize(QSize(150, 150))
         self.KK_Humi.setStyleSheet(u"background-color: qconicalgradient(cx:0.5, cy:0.5, angle:270.7, stop:0.189055 rgba(85, 0, 127, 255), stop:0.343284 rgba(0, 0, 255, 255), stop:0.502488 rgba(0, 170, 0, 255), stop:0.661692 rgba(255, 255, 0, 255), stop:0.80597 rgba(255, 0, 0, 255));\n"
-"border-radius: 100px;")
+"border-radius: 75px;")
         self.KK_Humi.setFrameShape(QFrame.StyledPanel)
         self.KK_Humi.setFrameShadow(QFrame.Raised)
         self.verticalLayout_85 = QVBoxLayout(self.KK_Humi)
@@ -291,10 +293,10 @@ class Ui_MainWindow(object):
         self.frame_34 = QFrame(self.KK_Humi)
         self.frame_34.setObjectName(u"frame_34")
         self.frame_34.setEnabled(False)
-        self.frame_34.setMinimumSize(QSize(200, 200))
-        self.frame_34.setMaximumSize(QSize(200, 200))
+        self.frame_34.setMinimumSize(QSize(150, 150))
+        self.frame_34.setMaximumSize(QSize(150, 150))
         self.frame_34.setStyleSheet(u"background-color: rgba(28, 29, 73, 255);\n"
-"border-radius: 100px;")
+"border-radius: 75px;")
         self.frame_34.setFrameShape(QFrame.StyledPanel)
         self.frame_34.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_18 = QHBoxLayout(self.frame_34)
@@ -305,7 +307,7 @@ class Ui_MainWindow(object):
         self.frame_35.setMinimumSize(QSize(0, 0))
         self.frame_35.setMaximumSize(QSize(16777215, 16777215))
         self.frame_35.setStyleSheet(u"background-color:rgba(42, 44, 111, 255);\n"
-"border-radius: 86px;")
+"border-radius: 61px;")
         self.frame_35.setFrameShape(QFrame.StyledPanel)
         self.frame_35.setFrameShadow(QFrame.Raised)
         self.verticalLayout_86 = QVBoxLayout(self.frame_35)
@@ -359,6 +361,7 @@ class Ui_MainWindow(object):
         self.frame_chart1.setFrameShadow(QFrame.Raised)
         self.verticalLayout_23 = QVBoxLayout(self.frame_chart1)
         self.verticalLayout_23.setObjectName(u"verticalLayout_23")
+        self.verticalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.line_chart = QVBoxLayout()
         self.line_chart.setObjectName(u"line_chart")
 
@@ -375,7 +378,9 @@ class Ui_MainWindow(object):
         self.frame_chart2.setFrameShape(QFrame.StyledPanel)
         self.frame_chart2.setFrameShadow(QFrame.Raised)
         self.verticalLayout_21 = QVBoxLayout(self.frame_chart2)
+        self.verticalLayout_21.setSpacing(0)
         self.verticalLayout_21.setObjectName(u"verticalLayout_21")
+        self.verticalLayout_21.setContentsMargins(0, 0, 0, 0)
         self.scatter_chart = QVBoxLayout()
         self.scatter_chart.setObjectName(u"scatter_chart")
 
@@ -392,6 +397,7 @@ class Ui_MainWindow(object):
         self.frame_chart3.setFrameShadow(QFrame.Raised)
         self.verticalLayout_22 = QVBoxLayout(self.frame_chart3)
         self.verticalLayout_22.setObjectName(u"verticalLayout_22")
+        self.verticalLayout_22.setContentsMargins(0, 0, 0, 0)
         self.bar_chart = QVBoxLayout()
         self.bar_chart.setObjectName(u"bar_chart")
 
@@ -409,6 +415,7 @@ class Ui_MainWindow(object):
         self.frame_chart4.setFrameShadow(QFrame.Raised)
         self.verticalLayout_20 = QVBoxLayout(self.frame_chart4)
         self.verticalLayout_20.setObjectName(u"verticalLayout_20")
+        self.verticalLayout_20.setContentsMargins(0, 0, 0, 0)
         self.histogram_chart = QVBoxLayout()
         self.histogram_chart.setObjectName(u"histogram_chart")
 
@@ -431,7 +438,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.load_button = QPushButton(self.frame_4)
         self.load_button.setObjectName(u"load_button")
-        self.load_button.setMinimumSize(QSize(81, 31))
+        self.load_button.setMinimumSize(QSize(81, 20))
+        self.load_button.setMaximumSize(QSize(16777215, 20))
         font3 = QFont()
         font3.setPointSize(10)
         self.load_button.setFont(font3)
@@ -453,7 +461,8 @@ class Ui_MainWindow(object):
 
         self.lineEdit = QLineEdit(self.frame_4)
         self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMinimumSize(QSize(81, 31))
+        self.lineEdit.setMinimumSize(QSize(81, 20))
+        self.lineEdit.setMaximumSize(QSize(16777215, 20))
         self.lineEdit.setFont(font3)
         self.lineEdit.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
 "border-radius:10px;")
@@ -462,7 +471,8 @@ class Ui_MainWindow(object):
 
         self.start_button = QPushButton(self.frame_4)
         self.start_button.setObjectName(u"start_button")
-        self.start_button.setMinimumSize(QSize(81, 31))
+        self.start_button.setMinimumSize(QSize(81, 20))
+        self.start_button.setMaximumSize(QSize(16777215, 20))
         self.start_button.setFont(font3)
         self.start_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.start_button.setStyleSheet(u"QPushButton {\n"
@@ -486,7 +496,8 @@ class Ui_MainWindow(object):
 
         self.voice = QPushButton(self.frame_4)
         self.voice.setObjectName(u"voice")
-        self.voice.setMinimumSize(QSize(81, 31))
+        self.voice.setMinimumSize(QSize(81, 20))
+        self.voice.setMaximumSize(QSize(16777215, 20))
         self.voice.setCursor(QCursor(Qt.PointingHandCursor))
         self.voice.setStyleSheet(u"QPushButton{	\n"
 "	image: url(:/img/voice_icon.png);\n"
@@ -497,7 +508,8 @@ class Ui_MainWindow(object):
 
         self.notice_label = QLabel(self.frame_4)
         self.notice_label.setObjectName(u"notice_label")
-        self.notice_label.setMinimumSize(QSize(81, 31))
+        self.notice_label.setMinimumSize(QSize(81, 20))
+        self.notice_label.setMaximumSize(QSize(16777215, 20))
         font4 = QFont()
         font4.setPointSize(10)
         font4.setItalic(True)
@@ -507,7 +519,8 @@ class Ui_MainWindow(object):
 
         self.help_button = QPushButton(self.frame_4)
         self.help_button.setObjectName(u"help_button")
-        self.help_button.setMinimumSize(QSize(81, 31))
+        self.help_button.setMinimumSize(QSize(81, 20))
+        self.help_button.setMaximumSize(QSize(16777215, 20))
         self.help_button.setFont(font3)
         self.help_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.help_button.setStyleSheet(u"QPushButton {\n"
@@ -527,7 +540,8 @@ class Ui_MainWindow(object):
 
         self.exit_button = QPushButton(self.frame_4)
         self.exit_button.setObjectName(u"exit_button")
-        self.exit_button.setMinimumSize(QSize(81, 31))
+        self.exit_button.setMinimumSize(QSize(81, 20))
+        self.exit_button.setMaximumSize(QSize(16777215, 20))
         self.exit_button.setFont(font3)
         self.exit_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.exit_button.setStyleSheet(u"QPushButton {\n"
@@ -550,7 +564,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.frame_4)
 
-        self.verticalLayout.setStretch(0, 2)
+        self.verticalLayout.setStretch(0, 1)
         self.verticalLayout.setStretch(1, 2)
         self.verticalLayout.setStretch(2, 12)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -575,9 +589,9 @@ class Ui_MainWindow(object):
         self.label_5.setText("")
         self.pushButton_19.setText(QCoreApplication.translate("MainWindow", u"Nhi\u1ec7t \u0111\u1ed9", None))
         self.pushButton_20.setText(QCoreApplication.translate("MainWindow", u"0\u00b0C", None))
-        self.Time.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" color:#000000;\">7:10</span></p></body></html>", None))
+        self.Time.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:40pt; color:#000000;\">7:10</span></p></body></html>", None))
         self.day.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:14pt;\">26/11/2022</span></p></body></html>", None))
-        self.thu.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:14pt;\">Tuesday</span></p></body></html>", None))
+        self.thu.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:12pt;\">Tuesday</span></p></body></html>", None))
         self.picture.setText("")
         self.pushButton_21.setText(QCoreApplication.translate("MainWindow", u"\u0110\u1ed9 \u1ea9m", None))
         self.pushButton_22.setText(QCoreApplication.translate("MainWindow", u"0%", None))
