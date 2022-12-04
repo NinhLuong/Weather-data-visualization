@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>991</width>
-    <height>640</height>
+    <width>1177</width>
+    <height>912</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QFrame" name="circularProgressBarBase">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>20</y>
+      <x>100</x>
+      <y>150</y>
       <width>781</width>
       <height>561</height>
      </rect>
@@ -193,30 +193,6 @@ color: rgb(155, 155, 255);</string>
       </layout>
      </widget>
     </widget>
-    <widget class="QLabel" name="poster">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>-30</y>
-       <width>301</width>
-       <height>621</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel{
-	image: url(:/images/khoidong.png);
-	border-top-left-radius: 50px;
-	border-bottom-right-radius: 0px;
-
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
@@ -260,12 +236,45 @@ color: rgb(155, 155, 255);</string>
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#ffffff;&quot;&gt;Cảm ơn bạn đã kiên nhẫn&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#ffffff;&quot;&gt;Hệ thống đang được tự động thiết lập&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <zorder>poster</zorder>
+    <widget class="QLabel" name="poster">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>301</width>
+       <height>561</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+background-image: url(:/images/khoidong1.png);
+	border-top-left-radius: 50px;
+	border-bottom-right-radius: 0px;
+
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
     <zorder>label</zorder>
     <zorder>circularBg</zorder>
     <zorder>circularProgress</zorder>
     <zorder>container</zorder>
     <zorder>label_2</zorder>
+    <zorder>poster</zorder>
    </widget>
   </widget>
  </widget>

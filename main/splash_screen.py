@@ -18,12 +18,12 @@ class Ui_SplashScreen(object):
     def setupUi(self, SplashScreen):
         if not SplashScreen.objectName():
             SplashScreen.setObjectName(u"SplashScreen")
-        SplashScreen.resize(991, 640)
+        SplashScreen.resize(1177, 912)
         self.centralwidget = QWidget(SplashScreen)
         self.centralwidget.setObjectName(u"centralwidget")
         self.circularProgressBarBase = QFrame(self.centralwidget)
         self.circularProgressBarBase.setObjectName(u"circularProgressBarBase")
-        self.circularProgressBarBase.setGeometry(QRect(10, 20, 781, 561))
+        self.circularProgressBarBase.setGeometry(QRect(100, 150, 781, 561))
         self.circularProgressBarBase.setStyleSheet(u"QFrame{\n"
 "	border-top-left-radius: 50px;\n"
 "	border-bottom-right-radius: 50px;\n"
@@ -104,16 +104,6 @@ class Ui_SplashScreen(object):
 
         self.gridLayout.addWidget(self.labelLoadingInfo, 1, 0, 1, 1)
 
-        self.poster = QLabel(self.circularProgressBarBase)
-        self.poster.setObjectName(u"poster")
-        self.poster.setGeometry(QRect(0, -30, 301, 621))
-        self.poster.setStyleSheet(u"QLabel{\n"
-"	image: url(:/images/khoidong.png);\n"
-"	border-top-left-radius: 50px;\n"
-"	border-bottom-right-radius: 0px;\n"
-"\n"
-"}")
-        self.poster.setAlignment(Qt.AlignCenter)
         self.label = QLabel(self.circularProgressBarBase)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(300, 0, 481, 561))
@@ -133,12 +123,25 @@ class Ui_SplashScreen(object):
 "	\n"
 "	font: 25 8pt \"#9Slide03 Comfortaa Light\";\n"
 "}")
-        self.poster.raise_()
+        self.poster = QLabel(self.circularProgressBarBase)
+        self.poster.setObjectName(u"poster")
+        self.poster.setEnabled(True)
+        self.poster.setGeometry(QRect(0, 0, 301, 561))
+        self.poster.setLayoutDirection(Qt.LeftToRight)
+        self.poster.setAutoFillBackground(False)
+        self.poster.setStyleSheet(u"QLabel{\n"
+"background-image: url(:/images/khoidong1.png);\n"
+"	border-top-left-radius: 50px;\n"
+"	border-bottom-right-radius: 0px;\n"
+"\n"
+"}")
+        self.poster.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
         self.label.raise_()
         self.circularBg.raise_()
         self.circularProgress.raise_()
         self.container.raise_()
         self.label_2.raise_()
+        self.poster.raise_()
         SplashScreen.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(SplashScreen)
@@ -151,8 +154,8 @@ class Ui_SplashScreen(object):
         self.labelPercentage.setText(QCoreApplication.translate("SplashScreen", u"<p><span style=\" font-size:68pt;\">0</span><span style=\" font-size:58pt; vertical-align:super;\">%</span></p>", None))
         self.labelCredits.setText(QCoreApplication.translate("SplashScreen", u"H\u1ec7 th\u1ed1ng \u0111ang k\u1ebft n\u1ed1i...", None))
         self.labelLoadingInfo.setText(QCoreApplication.translate("SplashScreen", u"loading...", None))
-        self.poster.setText("")
         self.label.setText("")
         self.label_2.setText(QCoreApplication.translate("SplashScreen", u"<html><head/><body><p align=\"center\"><span style=\" font-size:9pt; font-weight:600; color:#ffffff;\">C\u1ea3m \u01a1n b\u1ea1n \u0111\u00e3 ki\u00ean nh\u1eabn</span></p><p align=\"center\"><span style=\" font-size:9pt; font-weight:600; color:#ffffff;\">H\u1ec7 th\u1ed1ng \u0111ang \u0111\u01b0\u1ee3c t\u1ef1 \u0111\u1ed9ng thi\u1ebft l\u1eadp</span></p></body></html>", None))
+        self.poster.setText("")
     # retranslateUi
 

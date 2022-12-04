@@ -419,6 +419,7 @@ image: url(:/img/agenda.png);
                    <widget class="QLabel" name="day">
                     <property name="styleSheet">
                      <string notr="true">border: 0px solid;
+font: 7pt &quot;MS Shell Dlg 2&quot;;
 
 </string>
                     </property>

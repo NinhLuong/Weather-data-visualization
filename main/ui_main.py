@@ -224,6 +224,7 @@ class Ui_MainWindow(object):
         self.day = QLabel(self.frame_view)
         self.day.setObjectName(u"day")
         self.day.setStyleSheet(u"border: 0px solid;\n"
+"font: 7pt \"MS Shell Dlg 2\";\n"
 "\n"
 "")
 
