@@ -34,6 +34,7 @@ humidity = []
 windspeed = []
 uvindex = []
 cloudcover=[]
+solarradiation = []
 solarenergy = []
 feelslike = []
 link = ""   
@@ -202,17 +203,21 @@ class MiApp(QMainWindow):
 
     #Hàm vẽ biểu đồ lên màn hình   
     def draw(self):
+        # print('dt1')
         self.grafica = Canvas_grafica1()
+        # print('dt2')
         self.grafica1 = Canvas_grafica2()
+        # print('dt3')
         self.grafica2 = Canvas_grafica3()
+        # print('dt4')
         self.grafica3 = Canvas_grafica4()
-
+        # print(' ve dt1')
         self.ui.line_chart.addWidget(self.grafica)
-
+        # print(' ve dt2')
         self.ui.scatter_chart.addWidget(self.grafica1)
-
+        # print(' ve dt3')
         self.ui.bar_chart.addWidget(self.grafica2)
-
+        # print(' ve dt4')
         self.ui.histogram_chart.addWidget(self.grafica3)
         
     
@@ -239,7 +244,7 @@ class MiApp(QMainWindow):
         global temp
         global humidity
         global windspeed
-        global uvindex
+        global uvindex,cloudcover,feelslike,solarenergy
         global mode
         global response
         #Xóa data cũ, đặt trong try sẽ trừ trường hợp lỗi
@@ -281,22 +286,27 @@ class MiApp(QMainWindow):
                 self.ui.notice_label.setText("Error code 3")
         #Trường hợp còn lại lấy dữ liệu API thời gian thực theo tên thành phố để vẽ
         else:
-            api_key = 'TQ39TAZE5EZHHYRGNANAQ5JJB'
             city = self.ui.lineEdit.text()
-            url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' + city + '?key=' + api_key
+            url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' + city + '?key=TQ39TAZE5EZHHYRGNANAQ5JJB'
             try:
                 response = requests.get(url).json()
+                # print('hoan tat lay du lieu')
                 mode = 1
                 self.draw()
+                # print('ve hoan tat')
                 mode = 0
                 datetime = []
                 temp= []
                 humidity = []
                 windspeed = []
+                solarenergy=[]
+                feelslike = []
+                cloudcover=[]
                 self.ui.notice_label.setText("")
                 self.ui.lineEdit.clear()
                 self.ui.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Please input city name", None))
-            #Vẽ không thành công sẽ thông báo data lỗi
+                # print('khong loi')
+            # Vẽ không thành công sẽ thông báo data lỗi
             except:
                 self.ui.lineEdit.clear()
                 self.ui.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Please input city name", None))
@@ -390,7 +400,7 @@ class MiApp(QMainWindow):
         timer1s.start()
         self.ui.lineEdit.insert(location)
 
-#Biêu đồ scatter, bar
+#Biêu đồ line, boxplot
 class Canvas_grafica1(FigureCanvas):
     def __init__(self, parent=None):     
         self.fig , self.ax = plt.subplots(1, dpi=100, figsize=(6, 6), 
@@ -410,19 +420,19 @@ class Canvas_grafica1(FigureCanvas):
         humidity = []
         windspeed = []
         uvindex = []
-        datetime = []
         colum = []
         labels = []
+        dist1={}
         
         if mode == 1:
-            dist={}
+            
             for i in range(10):
                 for j in range(23):
                     temp.append(round(float((response["days"][i]["hours"][j]["temp"]-32)/1.8)))        
-                dist[str(response["days"][i]["datetime"])] = temp
+                dist1[str(response["days"][i]["datetime"])] = temp
                 temp = []
 
-            data1= pd.DataFrame(dist)
+            data1= pd.DataFrame(dist1)
             # print(data1)
             for i in data1.columns:
                 labels.append(i)
@@ -473,7 +483,7 @@ class Canvas_grafica1(FigureCanvas):
             
 
 
-#Biêu đồ box, line
+#Biêu đồ histogram, scatter
 class Canvas_grafica2(FigureCanvas):
     def __init__(self, parent=None):     
         self.fig , self.ax = plt.subplots(1,dpi=100, figsize=(6, 6),  facecolor='white')
@@ -487,15 +497,14 @@ class Canvas_grafica2(FigureCanvas):
         global humidity
         global windspeed
         global response
-        global precipprob
+        global precipprob,solarradiation 
         datetime = []
         temp = []
         humidity = []
         windspeed = []
         uvindex = []
-        datetime = []
         precipprob =[]
-        
+        solarradiation = []
 
 
         if mode == 1:
@@ -509,7 +518,7 @@ class Canvas_grafica2(FigureCanvas):
 
             self.fig.suptitle('Scatter Plot: Weather forecast for few hours {}'.format(response["days"][0]["datetime"]),size=9)
             plt.scatter(datetime,temp, s=50, c='r', label='Temp (℃)')
-            plt.scatter(datetime,precipprob, s=50, c='blue', label='Precipprob (%)')
+            plt.scatter(datetime,precipprob, s=50, c='blue', label='Rain (%)')
             plt.scatter(datetime,humidity,  s=50, c='#00ffff',label='Humidity (%)' )
             plt.scatter(datetime,windspeed, s=50, c='green', label='Wind speed (kph)')
             plt.scatter(datetime,uvindex, s=50, c='yellow', label='UV index')
@@ -522,7 +531,8 @@ class Canvas_grafica2(FigureCanvas):
 
             df = pd.read_csv(link) 
             self.fig.suptitle('Bar Graph: Weather forecast for the next few hours',size=9)
-            plt.bar(df.iloc[6:19,1],df.iloc[6:19,15],width=-0.4,align='edge',color='b',label='Cloudcover (%)')
+            plt.bar(df.iloc[6:19,1],df.iloc[6:19,14],width=-0.4,align='edge',color='b',label='Sealevelpressure (hPa)')
+            plt.bar(df.iloc[6:19,1],df.iloc[6:19,15],width=-0.4,align='edge',color='y',label='Cloudcover (%)')
             plt.bar(df.iloc[6:19,1],df.iloc[6:19,17],width=0.4,align='edge',color='r',label='Solarradiation (W/m2)')
             plt.bar(df.iloc[6:19,1],df.iloc[6:19,18],width=0.4,align='edge',color='g',label='Solarenergy  (MJ /m2 )')
             plt.legend(loc='best')
@@ -534,7 +544,7 @@ class Canvas_grafica2(FigureCanvas):
 
 
 
-#Biêu đồ heatmap, matrix histogram
+#Biêu đồ pairplot
 class Canvas_grafica3(FigureCanvas):
     def __init__(self, parent=None):     
         self.fig , self.ax = plt.subplots(1,dpi=100, figsize=(7, 7),sharey=True,sharex=True, facecolor='white')
@@ -546,40 +556,41 @@ class Canvas_grafica3(FigureCanvas):
         global uvindex
         global humidity
         global windspeed
-        global response
+        global response,solarradiation
+        datetime = []       
         temp = []
         humidity = []
         windspeed = []
         uvindex = []
-        solarenergy = []
-        dist1 ={}
+        solarradiation = []
+        dist3 ={}
 
         if mode == 1:
             for j in range(14):
                 for i in range(7,17):
                     temp.append(round(float((response["days"][j]["hours"][i]["temp"]-32)/1.8)))
                     uvindex.append(float(response["days"][j]["hours"][i]['uvindex']))
-                    solarenergy.append(float(response["days"][j]["hours"][i]['solarenergy']))
-            dist1['temp'] = temp
-            dist1["solarenergy"] = solarenergy
-            dist1["uvindex"] = uvindex
-            data = pd.DataFrame(dist1)
-            self.ax.set_title('Plot pairwise: The relationships of temperature, uv, solarenergy',size=9)
-            g = pd.plotting.scatter_matrix(data, figsize=(3,3), marker = 'o', hist_kwds = {'bins': 10}, s = 7, alpha = 0.8,ax=self.ax)
+                    solarradiation.append(float(response["days"][j]["hours"][i]['solarradiation']))
+            dist3['temp'] = temp
+            dist3["solarradiation"] = solarradiation
+            dist3["uvindex"] = uvindex
+            data3 = pd.DataFrame(dist3)
+            self.ax.set_title('Plot pairwise: The relationships of temperature, uv, solarradiation',size=9)
+            g = pd.plotting.scatter_matrix(data3, figsize=(3,3), marker = 'o', hist_kwds = {'bins': 10}, s = 7, alpha = 0.8,ax=self.ax)
             self.fig.tight_layout()
 
         else:
             df = pd.read_csv(link)
-            data_df = df[['temp','feelslike', 'humidity']]
+            data_df3 = df[['temp','feelslike', 'humidity']]
             self.ax.set_title('Plot pairwise: The relationships of temperature, humidity, feelslike',size=9)
-            g1 = pd.plotting.scatter_matrix(data_df, figsize=(3,3), marker = 'o', hist_kwds = {'bins': 10}, s = 7, alpha = 0.8,ax=self.ax)
+            g1 = pd.plotting.scatter_matrix(data_df3, figsize=(3,3), marker = 'o', hist_kwds = {'bins': 10}, s = 7, alpha = 0.8,ax=self.ax)
             self.fig.tight_layout()
             
 
 
 
 
-#Biểu đồ pairplot
+#Biểu đồ headmap,line
 class Canvas_grafica4(FigureCanvas):
     def __init__(self, parent=None):     
         self.fig , self.ax = plt.subplots(1, dpi=100, figsize=(6, 6), 
@@ -599,11 +610,10 @@ class Canvas_grafica4(FigureCanvas):
         humidity = []
         windspeed = []
         uvindex = []
-        datetime = []
         cloudcover=[]
         solarenergy = []
         feelslike = []
-        dist ={}
+        dist4 ={}
 
         if mode == 1:
 
@@ -616,13 +626,13 @@ class Canvas_grafica4(FigureCanvas):
                 cloudcover.append(float(response["days"][j] ['cloudcover']))
                 solarenergy.append(float(response["days"][j] ['solarenergy']))
                         
-            dist['temp'] = temp
-            dist["humidity"] = humidity
-            dist["windspeed"] = windspeed
-            dist["uvindex"] = uvindex
-            dist["cloudcover"] = cloudcover
-            dist["solarenergy"] = solarenergy
-            df = pd.DataFrame(dist,index =datetime)
+            dist4['temp'] = temp
+            dist4["humidity"] = humidity
+            dist4["windspeed"] = windspeed
+            dist4["uvindex"] = uvindex
+            dist4["cloudcover"] = cloudcover
+            dist4["solarenergy"] = solarenergy
+            df = pd.DataFrame(dist4,index =datetime)
             df= round(df.corr(),2)
             data = []
             for row in df.columns:
