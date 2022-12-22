@@ -28,15 +28,6 @@ from mpl_toolkits.mplot3d import Axes3D
 language = 'vi'
 counter = 0
 jumper =0
-datetime = []
-temp = []
-humidity = []
-windspeed = []
-uvindex = []
-cloudcover=[]
-solarradiation = []
-solarenergy = []
-feelslike = []
 link = ""   
 mode = 0
 location = ''
@@ -240,11 +231,6 @@ class MiApp(QMainWindow):
     def bt_start(self):
         global link
         global time_to_get
-        global datetime
-        global temp
-        global humidity
-        global windspeed
-        global uvindex,cloudcover,feelslike,solarenergy
         global mode
         global response
         #Xóa data cũ, đặt trong try sẽ trừ trường hợp lỗi
@@ -409,12 +395,7 @@ class Canvas_grafica1(FigureCanvas):
 
         global link
         global mode       
-        global datetime
-        global temp
-        global uvindex
-        global humidity
-        global windspeed    
-        global response
+        
         datetime = []
         temp = []
         humidity = []
@@ -491,13 +472,8 @@ class Canvas_grafica2(FigureCanvas):
 
         global link
         global mode
-        global datetime
-        global temp
-        global uvindex
-        global humidity
-        global windspeed
         global response
-        global precipprob,solarradiation 
+
         datetime = []
         temp = []
         humidity = []
@@ -551,12 +527,7 @@ class Canvas_grafica3(FigureCanvas):
         super().__init__(self.fig) 
         global link
         global mode
-        global datetime
-        global temp
-        global uvindex
-        global humidity
-        global windspeed
-        global response,solarradiation
+        global response
         datetime = []       
         temp = []
         humidity = []
@@ -599,11 +570,6 @@ class Canvas_grafica4(FigureCanvas):
 
         global link
         global mode
-        global datetime
-        global temp
-        global uvindex
-        global humidity
-        global windspeed
         global response
         datetime = []
         temp = []
